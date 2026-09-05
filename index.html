@@ -7,282 +7,382 @@
 <title>The Corridor Theory</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
-    body {
-        background:
-            radial-gradient(circle at center, #303030 0%, #151515 70%);
-        color: #222;
-        font-family: Georgia, "Times New Roman", serif;
-    }
+body {
+    background:
+        radial-gradient(circle at center, #303030 0%, #111 75%);
+    color: #222;
+    font-family: Georgia, "Times New Roman", serif;
+}
 
-    /* =========================
-       TOP BAR
-       ========================= */
+/* =========================
+   TOP SELECTOR
+   ========================= */
+
+.top-bar {
+    height: 75px;
+    width: 100%;
+    background: #111;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    position: relative;
+    z-index: 100;
+
+    box-shadow: 0 3px 15px rgba(0,0,0,0.5);
+}
+
+.top-bar button {
+    border: 1px solid #777;
+    background: #222;
+    color: #eee;
+
+    padding: 11px 28px;
+
+    border-radius: 6px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.top-bar button:hover {
+    background: #444;
+}
+
+.top-bar button.active {
+    background: #eee;
+    color: #111;
+    border-color: #eee;
+}
+
+/* =========================
+   BOOK
+   ========================= */
+
+.book-container {
+    position: relative;
+
+    width: 100%;
+    height: calc(100vh - 140px);
+
+    perspective: 1800px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 15px;
+}
+
+/* Hide inactive parts */
+
+.story {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.story.active {
+    display: flex;
+}
+
+/* =========================
+   PAGE
+   ========================= */
+
+.page {
+    position: absolute;
+
+    width: min(900px, 92vw);
+    height: calc(100% - 20px);
+
+    max-height: 800px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,0.055),
+            transparent 8%,
+            transparent 92%,
+            rgba(0,0,0,0.055)
+        ),
+        #f4efdf;
+
+    box-shadow:
+        0 12px 40px rgba(0,0,0,0.55),
+        inset 0 0 45px rgba(100,80,40,0.08);
+
+    border-radius: 2px;
+
+    padding: 45px 70px 65px 75px;
+
+    overflow: hidden;
+
+    line-height: 1.65;
+    font-size: 18px;
+
+    transform-origin: left center;
+
+    backface-visibility: hidden;
+
+    transition:
+        transform 0.75s cubic-bezier(.77,0,.18,1),
+        opacity 0.75s ease;
+}
+
+/* Little inner page edge */
+
+.page::before {
+    content: "";
+
+    position: absolute;
+
+    left: 32px;
+    top: 0;
+    bottom: 0;
+
+    width: 1px;
+
+    background: rgba(100,80,40,0.14);
+}
+
+/* =========================
+   PAGE STATES
+   ========================= */
+
+.page.current {
+    transform: rotateY(0deg);
+    opacity: 1;
+
+    z-index: 3;
+}
+
+.page.next {
+    transform: rotateY(0deg);
+    opacity: 0;
+
+    z-index: 2;
+}
+
+.page.previous {
+    transform: rotateY(0deg);
+    opacity: 0;
+
+    z-index: 2;
+}
+
+/* Page turning forward */
+
+.page.turn-forward {
+    transform: rotateY(-105deg);
+    opacity: 0;
+
+    z-index: 5;
+}
+
+/* Page turning backwards */
+
+.page.turn-backward {
+    transform: rotateY(105deg);
+    opacity: 0;
+
+    z-index: 5;
+}
+
+/* =========================
+   TEXT
+   ========================= */
+
+.page p {
+    margin-bottom: 17px;
+}
+
+.page-number {
+    position: absolute;
+
+    bottom: 18px;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    font-size: 13px;
+    color: #777;
+}
+
+/* =========================
+   BOTTOM BAR
+   ========================= */
+
+.bottom-bar {
+    height: 65px;
+    width: 100%;
+
+    background: #111;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    position: relative;
+    z-index: 100;
+
+    box-shadow:
+        0 -3px 15px rgba(0,0,0,0.45);
+}
+
+.bottom-bar button {
+    min-width: 130px;
+
+    padding: 11px 20px;
+
+    background: #222;
+    color: #eee;
+
+    border: 1px solid #777;
+    border-radius: 6px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.1s,
+        opacity 0.2s;
+}
+
+.bottom-bar button:hover {
+    background: #444;
+}
+
+.bottom-bar button:active {
+    transform: scale(0.95);
+}
+
+.bottom-bar button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 700px) {
 
     .top-bar {
-        height: 80px;
-        width: 100%;
-        background: #111;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        position: relative;
-        z-index: 10;
-        box-shadow: 0 3px 15px rgba(0,0,0,0.5);
+        height: 65px;
+        gap: 8px;
     }
 
     .top-bar button {
-        border: 1px solid #777;
-        background: #222;
-        color: #eee;
-        padding: 12px 28px;
-        border-radius: 6px;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.2s;
+        padding: 9px 22px;
+        font-size: 14px;
     }
 
-    .top-bar button:hover {
-        background: #444;
+    .book-container {
+        height: calc(100vh - 125px);
+        padding: 8px;
     }
-
-    .top-bar button.active {
-        background: #eee;
-        color: #111;
-        border-color: #eee;
-    }
-
-    /* =========================
-       BOOK AREA
-       ========================= */
-
-    .book-area {
-        height: calc(100vh - 145px);
-        width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        display: flex;
-        align-items: center;
-
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-
-        padding: 25px 7vw;
-
-        scrollbar-width: thin;
-        scrollbar-color: #777 #222;
-    }
-
-    .book-area::-webkit-scrollbar {
-        height: 10px;
-    }
-
-    .book-area::-webkit-scrollbar-track {
-        background: #222;
-    }
-
-    .book-area::-webkit-scrollbar-thumb {
-        background: #777;
-        border-radius: 10px;
-    }
-
-    /* =========================
-       INDIVIDUAL BOOK PAGE
-       ========================= */
 
     .page {
-        flex: 0 0 min(78vw, 720px);
-        height: 100%;
-        max-height: 700px;
+        width: 94vw;
+        height: calc(100% - 10px);
 
-        margin-right: 35px;
+        padding:
+            32px
+            30px
+            55px
+            40px;
 
-        background:
-            linear-gradient(
-                90deg,
-                rgba(0,0,0,0.035),
-                transparent 7%,
-                transparent 93%,
-                rgba(0,0,0,0.035)
-            ),
-            #f4efdf;
-
-        border-radius: 2px;
-
-        box-shadow:
-            0 8px 30px rgba(0,0,0,0.45),
-            inset 0 0 35px rgba(100,80,40,0.08);
-
-        padding: 55px 65px;
-
-        position: relative;
-
-        scroll-snap-align: center;
-
-        overflow-y: auto;
-
-        line-height: 1.75;
-        font-size: 18px;
+        font-size: 15px;
+        line-height: 1.58;
     }
 
     .page::before {
-        content: "";
-        position: absolute;
-        left: 28px;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-        background: rgba(100,80,40,0.12);
+        left: 17px;
     }
 
     .page p {
-        margin-bottom: 22px;
+        margin-bottom: 13px;
     }
-
-    /* Page number */
 
     .page-number {
-        position: absolute;
-        bottom: 18px;
-        left: 0;
-        right: 0;
-        text-align: center;
-
-        font-size: 13px;
-        color: #777;
-        font-family: Georgia, "Times New Roman", serif;
+        bottom: 13px;
+        font-size: 12px;
     }
 
-    /* =========================
-       BOTTOM CONTROLS
-       ========================= */
-
     .bottom-bar {
-        height: 65px;
-        background: #111;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-
-        box-shadow: 0 -3px 15px rgba(0,0,0,0.45);
-
-        position: relative;
-        z-index: 10;
+        height: 60px;
+        gap: 10px;
     }
 
     .bottom-bar button {
-        min-width: 125px;
-        padding: 11px 20px;
+        min-width: 105px;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
 
-        background: #222;
-        color: #eee;
+/* =========================
+   SMALL PHONES
+   ========================= */
 
-        border: 1px solid #777;
-        border-radius: 6px;
+@media (max-width: 400px) {
 
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 15px;
+    .page {
+        padding:
+            27px
+            25px
+            50px
+            35px;
 
-        cursor: pointer;
-
-        transition: 0.2s;
+        font-size: 14px;
+        line-height: 1.5;
     }
 
-    .bottom-bar button:hover {
-        background: #444;
+    .page::before {
+        left: 14px;
     }
 
-    .bottom-bar button:active {
-        transform: scale(0.96);
+    .page p {
+        margin-bottom: 11px;
     }
 
-    /* =========================
-       MOBILE
-       ========================= */
-
-    @media (max-width: 700px) {
-
-        .top-bar {
-            height: 65px;
-            gap: 8px;
-        }
-
-        .top-bar button {
-            padding: 9px 20px;
-            font-size: 14px;
-        }
-
-        .book-area {
-            height: calc(100vh - 125px);
-            padding: 15px 6vw;
-        }
-
-        .page {
-            flex: 0 0 88vw;
-
-            height: 100%;
-
-            padding: 40px 30px 55px 38px;
-
-            font-size: 16px;
-            line-height: 1.65;
-
-            margin-right: 20px;
-        }
-
-        .page::before {
-            left: 17px;
-        }
-
-        .page p {
-            margin-bottom: 18px;
-        }
-
-        .bottom-bar {
-            height: 60px;
-            gap: 10px;
-        }
-
-        .bottom-bar button {
-            min-width: 105px;
-            padding: 10px 12px;
-            font-size: 14px;
-        }
+    .bottom-bar button {
+        min-width: 95px;
+        font-size: 13px;
     }
-
-    /* =========================
-       SMALL PHONES
-       ========================= */
-
-    @media (max-width: 400px) {
-
-        .page {
-            padding-left: 30px;
-            padding-right: 25px;
-            font-size: 15px;
-        }
-
-        .bottom-bar button {
-            min-width: 95px;
-            font-size: 13px;
-        }
-    }
+}
 </style>
 </head>
 
@@ -293,23 +393,39 @@
      ========================= -->
 
 <div class="top-bar">
-    <button id="part1Button" class="active" onclick="showPart(1)">
+
+    <button
+        id="part1Button"
+        class="active"
+        onclick="showPart(1)">
         Part 1
     </button>
 
-    <button id="part2Button" onclick="showPart(2)">
+    <button
+        id="part2Button"
+        onclick="showPart(2)">
         Part 2
     </button>
+
 </div>
+
+
+<!-- =========================
+     BOOK CONTAINER
+     ========================= -->
+
+<div class="book-container">
 
 
 <!-- =========================
      PART 1
      ========================= -->
 
-<div id="part1" class="book-area">
+<div id="part1" class="story active">
 
-    <div class="page">
+
+    <div class="page current">
+
         <p>The bell rang at 10:17.</p>
 
         <p>For everyone else, it meant the beginning of break. For Andrey, it meant the beginning of the war.</p>
@@ -343,6 +459,7 @@
         <p>“No.”</p>
 
         <div class="page-number">1</div>
+
     </div>
 
 
@@ -377,6 +494,7 @@
         <p>Andrey walked away.</p>
 
         <div class="page-number">2</div>
+
     </div>
 
 
@@ -421,6 +539,7 @@
         <p>“That's probably them.”</p>
 
         <div class="page-number">3</div>
+
     </div>
 
 
@@ -483,6 +602,7 @@
         <p>Almost.</p>
 
         <div class="page-number">4</div>
+
     </div>
 
 
@@ -523,6 +643,7 @@
         <p>Yet.</p>
 
         <div class="page-number">5</div>
+
     </div>
 
 
@@ -591,6 +712,7 @@
         <p>Aaron walked away.</p>
 
         <div class="page-number">6</div>
+
     </div>
 
 
@@ -637,6 +759,7 @@
         <p>Quietly.</p>
 
         <div class="page-number">7</div>
+
     </div>
 
 
@@ -663,6 +786,7 @@
         <p>lie?</p>
 
         <div class="page-number">8</div>
+
     </div>
 
 </div>
@@ -672,9 +796,10 @@
      PART 2
      ========================= -->
 
-<div id="part2" class="book-area" style="display:none;">
+<div id="part2" class="story">
 
-    <div class="page">
+
+    <div class="page current">
 
         <p>Spiros hated mornings.</p>
 
@@ -711,6 +836,7 @@
         <p>He hoped he hadn't.</p>
 
         <div class="page-number">1</div>
+
     </div>
 
 
@@ -781,6 +907,7 @@
         <p>Everyone moved.</p>
 
         <div class="page-number">2</div>
+
     </div>
 
 
@@ -859,6 +986,7 @@
         <p>Oliver's expression tightened.</p>
 
         <div class="page-number">3</div>
+
     </div>
 
 
@@ -945,6 +1073,7 @@
         <p>“No.”</p>
 
         <div class="page-number">4</div>
+
     </div>
 
 
@@ -1013,6 +1142,7 @@
         <p>Specifically, towards the windows of the oldest block.</p>
 
         <div class="page-number">5</div>
+
     </div>
 
 
@@ -1089,6 +1219,7 @@
         <p>“So?”</p>
 
         <div class="page-number">6</div>
+
     </div>
 
 
@@ -1147,6 +1278,7 @@
         <p>And for the first time that day, everyone stopped talking.</p>
 
         <div class="page-number">7</div>
+
     </div>
 
 
@@ -1179,22 +1311,25 @@
         <p>And the entire school turned towards him.</p>
 
         <div class="page-number">8</div>
+
     </div>
+
+</div>
 
 </div>
 
 
 <!-- =========================
-     BOTTOM BUTTONS
+     BOTTOM CONTROLS
      ========================= -->
 
 <div class="bottom-bar">
 
-    <button onclick="previousPage()">
+    <button id="previousButton" onclick="previousPage()">
         ◀ Previous
     </button>
 
-    <button onclick="nextPage()">
+    <button id="nextButton" onclick="nextPage()">
         Next ▶
     </button>
 
@@ -1203,26 +1338,176 @@
 
 <script>
 
+/* =========================
+   BOOK STATE
+   ========================= */
+
 let currentPart = 1;
 let currentPage = 0;
+let isAnimating = false;
 
 
 /* =========================
-   GET CURRENT BOOK
+   GET CURRENT STORY
    ========================= */
 
-function getCurrentBook() {
+function getCurrentStory() {
+
     return document.getElementById(
         currentPart === 1 ? "part1" : "part2"
     );
+
 }
 
 
 /* =========================
-   SHOW PART
+   GET PAGES
+   ========================= */
+
+function getPages() {
+
+    return getCurrentStory().querySelectorAll(".page");
+
+}
+
+
+/* =========================
+   UPDATE BUTTONS
+   ========================= */
+
+function updateButtons() {
+
+    const pages = getPages();
+
+    const previous = document.getElementById("previousButton");
+    const next = document.getElementById("nextButton");
+
+    previous.disabled = currentPage === 0;
+    next.disabled = currentPage === pages.length - 1;
+
+}
+
+
+/* =========================
+   SET CURRENT PAGE
+   ========================= */
+
+function setPage(index) {
+
+    const pages = getPages();
+
+    pages.forEach((page, i) => {
+
+        page.classList.remove(
+            "current",
+            "next",
+            "previous",
+            "turn-forward",
+            "turn-backward"
+        );
+
+        if (i === index) {
+            page.classList.add("current");
+        }
+        else if (i > index) {
+            page.classList.add("next");
+        }
+        else {
+            page.classList.add("previous");
+        }
+
+    });
+
+    updateButtons();
+
+}
+
+
+/* =========================
+   NEXT PAGE
+   ========================= */
+
+function nextPage() {
+
+    if (isAnimating) return;
+
+    const pages = getPages();
+
+    if (currentPage >= pages.length - 1) return;
+
+    isAnimating = true;
+
+    const oldPage = pages[currentPage];
+
+    currentPage++;
+
+    const newPage = pages[currentPage];
+
+    newPage.classList.remove("next");
+    newPage.classList.add("current");
+
+    oldPage.classList.remove("current");
+    oldPage.classList.add("turn-forward");
+
+    setTimeout(function() {
+
+        oldPage.classList.remove("turn-forward");
+
+        isAnimating = false;
+
+        updateButtons();
+
+    }, 750);
+
+}
+
+
+/* =========================
+   PREVIOUS PAGE
+   ========================= */
+
+function previousPage() {
+
+    if (isAnimating) return;
+
+    if (currentPage <= 0) return;
+
+    isAnimating = true;
+
+    const pages = getPages();
+
+    const oldPage = pages[currentPage];
+
+    currentPage--;
+
+    const newPage = pages[currentPage];
+
+    newPage.classList.remove("previous");
+    newPage.classList.add("current");
+
+    oldPage.classList.remove("current");
+    oldPage.classList.add("turn-backward");
+
+    setTimeout(function() {
+
+        oldPage.classList.remove("turn-backward");
+
+        isAnimating = false;
+
+        updateButtons();
+
+    }, 750);
+
+}
+
+
+/* =========================
+   CHANGE PART
    ========================= */
 
 function showPart(part) {
+
+    if (isAnimating) return;
 
     currentPart = part;
     currentPage = 0;
@@ -1235,138 +1520,54 @@ function showPart(part) {
 
     if (part === 1) {
 
-        part1.style.display = "flex";
-        part2.style.display = "none";
+        part1.classList.add("active");
+        part2.classList.remove("active");
 
         button1.classList.add("active");
         button2.classList.remove("active");
 
-    } else {
+    }
+    else {
 
-        part1.style.display = "none";
-        part2.style.display = "flex";
+        part1.classList.remove("active");
+        part2.classList.add("active");
 
         button1.classList.remove("active");
         button2.classList.add("active");
+
     }
 
-    getCurrentBook().scrollTo({
-        left: 0,
-        behavior: "smooth"
-    });
+    setPage(0);
+
 }
 
 
 /* =========================
-   NEXT PAGE
-   ========================= */
-
-function nextPage() {
-
-    const book = getCurrentBook();
-    const pages = book.querySelectorAll(".page");
-
-    if (currentPage < pages.length - 1) {
-
-        currentPage++;
-
-        pages[currentPage].scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center"
-        });
-    }
-}
-
-
-/* =========================
-   PREVIOUS PAGE
-   ========================= */
-
-function previousPage() {
-
-    const book = getCurrentBook();
-    const pages = book.querySelectorAll(".page");
-
-    if (currentPage > 0) {
-
-        currentPage--;
-
-        pages[currentPage].scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center"
-        });
-    }
-}
-
-
-/* =========================
-   PC KEYBOARD CONTROLS
+   KEYBOARD CONTROLS
    ========================= */
 
 document.addEventListener("keydown", function(event) {
 
     if (event.key === "ArrowRight") {
+
         nextPage();
+
     }
 
     if (event.key === "ArrowLeft") {
+
         previousPage();
+
     }
 
 });
 
 
 /* =========================
-   UPDATE PAGE WHEN USER
-   SWIPES / SCROLLS
+   INITIALISE
    ========================= */
 
-function updateCurrentPage() {
-
-    const book = getCurrentBook();
-    const pages = book.querySelectorAll(".page");
-
-    let closest = 0;
-    let smallestDistance = Infinity;
-
-    pages.forEach((page, index) => {
-
-        const rect = page.getBoundingClientRect();
-        const bookRect = book.getBoundingClientRect();
-
-        const pageCenter =
-            rect.left + rect.width / 2;
-
-        const bookCenter =
-            bookRect.left + bookRect.width / 2;
-
-        const distance =
-            Math.abs(pageCenter - bookCenter);
-
-        if (distance < smallestDistance) {
-            smallestDistance = distance;
-            closest = index;
-        }
-
-    });
-
-    currentPage = closest;
-}
-
-
-/* Detect manual horizontal scrolling */
-
-document.getElementById("part1").addEventListener(
-    "scroll",
-    updateCurrentPage
-);
-
-document.getElementById("part2").addEventListener(
-    "scroll",
-    updateCurrentPage
-);
+setPage(0);
 
 </script>
 
