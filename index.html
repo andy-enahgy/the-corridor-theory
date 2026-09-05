@@ -25,7 +25,7 @@ body {
     font-family: Georgia, "Times New Roman", serif;
 }
 
-/* MAIN PAGE */
+/* WHOLE PAGE */
 
 .page {
     width: 100%;
@@ -42,9 +42,11 @@ body {
     width: min(1100px, 96vw);
     height: 96vh;
     background: #f4e6ca;
+
     box-shadow:
         0 20px 60px rgba(0,0,0,.6),
         inset 0 0 30px rgba(70,40,15,.12);
+
     border-radius: 6px;
     overflow: hidden;
 
@@ -52,20 +54,24 @@ body {
     flex-direction: column;
 }
 
-/* PART BUTTONS */
+/* TOP BAR */
 
-.part-bar {
-    height: 58px;
+.top-bar {
+    height: 65px;
     flex-shrink: 0;
+
+    background: #211b16;
+    border-bottom: 2px solid #8b765b;
 
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 
-    background: #211b16;
-    border-bottom: 2px solid #8b765b;
+    padding: 8px;
 }
+
+/* PART BUTTONS */
 
 .part-button {
     background: #342b23;
@@ -74,10 +80,10 @@ body {
     border: 1px solid #8b765b;
     border-radius: 5px;
 
-    padding: 8px 25px;
+    padding: 9px 22px;
 
     font-family: Georgia, serif;
-    font-size: 14px;
+    font-size: 13px;
 
     cursor: pointer;
 }
@@ -87,7 +93,49 @@ body {
     color: #211b16;
 }
 
-/* STORY AREA */
+/* PAGE SELECTOR */
+
+.page-selector {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-left: 8px;
+}
+
+.page-label {
+    color: #ddd;
+    font-size: 13px;
+}
+
+/* PAGE ARROWS */
+
+.page-arrow {
+    background: #342b23;
+    color: #eee;
+
+    border: 1px solid #8b765b;
+    border-radius: 5px;
+
+    width: 34px;
+    height: 32px;
+
+    font-family: Georgia, serif;
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.page-arrow:hover {
+    background: #46392e;
+}
+
+.page-arrow:disabled {
+    opacity: .3;
+    cursor: default;
+}
+
+/* STORY */
 
 .story-area {
     position: relative;
@@ -95,15 +143,13 @@ body {
     overflow: hidden;
 }
 
-/* SLIDES */
-
 .slide {
     display: none;
 
     width: 100%;
     height: 100%;
 
-    padding: 35px 70px 20px;
+    padding: 35px 70px 25px;
 
     flex-direction: column;
 }
@@ -124,53 +170,13 @@ body {
     margin: 0 0 11px 0;
 }
 
-/* PAGE NUMBER */
+/* SMALL PAGE NUMBER AT BOTTOM */
 
 .page-number {
     text-align: center;
     font-size: 12px;
-    opacity: .5;
+    opacity: .45;
     margin-top: 5px;
-}
-
-/* NAVIGATION */
-
-.navigation {
-    height: 58px;
-    flex-shrink: 0;
-
-    background: #211b16;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-
-    border-top: 2px solid #8b765b;
-}
-
-.nav-button {
-    background: #342b23;
-    color: #eee;
-
-    border: 1px solid #8b765b;
-    border-radius: 5px;
-
-    padding: 8px 24px;
-
-    font-family: Georgia, serif;
-    font-size: 13px;
-
-    cursor: pointer;
-}
-
-.nav-button:hover {
-    background: #46392e;
-}
-
-.nav-button:disabled {
-    opacity: .3;
-    cursor: default;
 }
 
 /* MOBILE */
@@ -186,13 +192,30 @@ body {
         height: 98vh;
     }
 
-    .part-bar {
-        height: 50px;
+    .top-bar {
+        height: 55px;
+        gap: 5px;
+        padding: 5px;
     }
 
     .part-button {
-        padding: 7px 20px;
-        font-size: 12px;
+        padding: 7px 13px;
+        font-size: 11px;
+    }
+
+    .page-selector {
+        gap: 4px;
+        margin-left: 2px;
+    }
+
+    .page-label {
+        font-size: 11px;
+    }
+
+    .page-arrow {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
     }
 
     .slide {
@@ -211,19 +234,28 @@ body {
     .page-number {
         font-size: 10px;
     }
-
-    .navigation {
-        height: 50px;
-        gap: 8px;
-    }
-
-    .nav-button {
-        padding: 7px 14px;
-        font-size: 11px;
-    }
 }
 
 @media (max-width: 400px) {
+
+    .top-bar {
+        height: 50px;
+    }
+
+    .part-button {
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+
+    .page-label {
+        font-size: 10px;
+    }
+
+    .page-arrow {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
 
     .slide {
         padding: 13px 13px 7px;
@@ -237,14 +269,6 @@ body {
     .story p {
         margin-bottom: 4px;
     }
-
-    .part-button {
-        padding: 6px 15px;
-    }
-
-    .nav-button {
-        padding: 6px 11px;
-    }
 }
 
 </style>
@@ -256,9 +280,9 @@ body {
 
 <div class="book">
 
-<!-- PART BUTTONS -->
+<!-- ================= TOP CONTROLS ================= -->
 
-<div class="part-bar">
+<div class="top-bar">
 
 <button
 class="part-button active"
@@ -274,10 +298,34 @@ onclick="switchPart(2)">
 Part 2
 </button>
 
+<div class="page-selector">
+
+<button
+class="page-arrow"
+id="previousButton"
+onclick="previousSlide()">
+←
+</button>
+
+<span
+class="page-label"
+id="pageLabel">
+Page 1 / 5
+</span>
+
+<button
+class="page-arrow"
+id="nextButton"
+onclick="nextSlide()">
+→
+</button>
+
+</div>
+
 </div>
 
 
-<!-- STORY -->
+<!-- ================= STORY ================= -->
 
 <div class="story-area">
 
@@ -1212,28 +1260,6 @@ Part 2
 
 </div>
 
-
-<!-- NAVIGATION -->
-
-<div class="navigation">
-
-<button
-class="nav-button"
-id="previousButton"
-onclick="previousSlide()">
-← Previous
-</button>
-
-<button
-class="nav-button"
-id="nextButton"
-onclick="nextSlide()">
-Next →
-</button>
-
-</div>
-
-
 </div>
 
 </div>
@@ -1245,6 +1271,8 @@ let currentPart = 1;
 let currentSlide = 0;
 
 
+/* GET CURRENT PART'S PAGES */
+
 function getSlides() {
 
     return document.querySelectorAll(
@@ -1253,6 +1281,8 @@ function getSlides() {
 
 }
 
+
+/* SHOW CURRENT PAGE */
 
 function showSlide() {
 
@@ -1266,10 +1296,12 @@ function showSlide() {
 
     slides[currentSlide].classList.add("active");
 
-    updateButtons();
+    updateControls();
 
 }
 
+
+/* NEXT PAGE */
 
 function nextSlide() {
 
@@ -1286,6 +1318,8 @@ function nextSlide() {
 }
 
 
+/* PREVIOUS PAGE */
+
 function previousSlide() {
 
     if (currentSlide > 0) {
@@ -1298,6 +1332,8 @@ function previousSlide() {
 
 }
 
+
+/* CHANGE PART */
 
 function switchPart(part) {
 
@@ -1318,23 +1354,25 @@ function switchPart(part) {
 }
 
 
-function updateButtons() {
+/* UPDATE PAGE COUNTER + BUTTONS */
+
+function updateControls() {
 
     const slides = getSlides();
 
-    document
-        .getElementById("previousButton")
-        .disabled = currentSlide === 0;
+    document.getElementById("pageLabel").textContent =
+        "Page " + (currentSlide + 1) + " / " + slides.length;
 
-    document
-        .getElementById("nextButton")
-        .disabled =
-            currentSlide === slides.length - 1;
+    document.getElementById("previousButton").disabled =
+        currentSlide === 0;
+
+    document.getElementById("nextButton").disabled =
+        currentSlide === slides.length - 1;
 
 }
 
 
-/* KEYBOARD */
+/* KEYBOARD ARROWS */
 
 document.addEventListener("keydown", function(event) {
 
@@ -1352,6 +1390,8 @@ document.addEventListener("keydown", function(event) {
 
 });
 
+
+/* START */
 
 showSlide();
 
