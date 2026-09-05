@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>The Corridor Theory</title>
 
 <style>
@@ -23,32 +24,26 @@ body {
     font-family: Georgia, "Times New Roman", serif;
 }
 
-/* TOP BAR */
+/* ================= TOP ================= */
 
 .top-bar {
-    height: 72px;
+    height: 70px;
+    background: #111;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    background: #111;
-    position: relative;
-    z-index: 100;
 }
 
 .part-button {
-    border: 1px solid #777;
     background: #222;
     color: #ddd;
-    padding: 11px 28px;
+    border: 1px solid #666;
     border-radius: 6px;
+    padding: 10px 28px;
     font-family: Georgia, serif;
     font-size: 15px;
     cursor: pointer;
-}
-
-.part-button:hover {
-    background: #333;
 }
 
 .part-button.active {
@@ -56,164 +51,104 @@ body {
     color: #111;
 }
 
-/* BOOK AREA */
+/* ================= BOOK ================= */
 
-.book-container {
-    height: calc(100vh - 137px);
+.book-area {
+    height: calc(100vh - 135px);
     width: 100%;
-    padding: 18px 24px;
+    padding: 15px 25px;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 2200px;
 }
 
 .book {
-    position: relative;
-    width: min(1100px, 94vw);
+    width: min(1100px, 95vw);
     height: 100%;
-    max-height: 760px;
-    background: #e8d7b7;
-    border-radius: 4px 10px 10px 4px;
+
+    background: #f4e6ca;
+
     box-shadow:
         0 20px 60px rgba(0,0,0,.55),
-        inset 8px 0 15px rgba(80,50,20,.15);
+        inset 0 0 25px rgba(70,40,15,.12);
+
+    border-radius: 5px;
+
+    position: relative;
     overflow: hidden;
 }
 
-.book::before {
-    content: "";
+/* ================= SLIDES ================= */
+
+.slide {
     position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 50;
-    border: 1px solid rgba(70,45,20,.35);
-}
 
-/* PAGES */
+    top: 0;
+    left: 0;
 
-.page {
-    position: absolute;
-    inset: 0;
+    width: 100%;
+    height: 100%;
 
-    padding: clamp(28px, 5vw, 70px) clamp(28px, 7vw, 100px);
+    padding: 45px 75px 35px;
 
-    background:
-        linear-gradient(
-            90deg,
-            rgba(90,60,30,.08),
-            transparent 7%,
-            transparent 93%,
-            rgba(90,60,30,.06)
-        ),
-        #f4e6ca;
-
-    transform-origin: left center;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-
-    display: flex;
+    display: none;
     flex-direction: column;
-
-    visibility: hidden;
-    opacity: 0;
 }
 
-.page.current {
-    visibility: visible;
-    opacity: 1;
-    z-index: 5;
+.slide.active {
+    display: flex;
 }
 
-.page-content {
+.story {
     flex: 1;
     overflow: hidden;
+
     font-size: 18px;
-    line-height: 1.58;
+    line-height: 1.55;
 }
 
-.page-content p {
-    margin: 0 0 14px 0;
+.story p {
+    margin: 0 0 13px 0;
 }
 
 .page-number {
     text-align: center;
-    margin-top: 12px;
     font-size: 13px;
-    opacity: .55;
+    opacity: .5;
+    margin-top: 10px;
 }
 
-/* PAGE TURN */
-
-.flip-next {
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 20 !important;
-    animation: turnNext .85s ease-in-out forwards;
-}
-
-.flip-previous {
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 20 !important;
-    animation: turnPrevious .85s ease-in-out forwards;
-}
-
-@keyframes turnNext {
-    0% {
-        transform: rotateY(0deg);
-    }
-
-    50% {
-        box-shadow: 18px 5px 35px rgba(0,0,0,.35);
-    }
-
-    100% {
-        transform: rotateY(-180deg);
-    }
-}
-
-@keyframes turnPrevious {
-    0% {
-        transform: rotateY(0deg);
-    }
-
-    50% {
-        box-shadow: -18px 5px 35px rgba(0,0,0,.35);
-    }
-
-    100% {
-        transform: rotateY(180deg);
-    }
-}
-
-/* BOTTOM */
+/* ================= BOTTOM ================= */
 
 .bottom-bar {
     height: 65px;
+
+    background: #111;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 18px;
-    background: #111;
-    position: relative;
-    z-index: 100;
+
+    gap: 20px;
 }
 
 .nav-button {
-    min-width: 115px;
-    padding: 10px 20px;
-    border: 1px solid #777;
-    border-radius: 6px;
     background: #222;
     color: #eee;
+
+    border: 1px solid #666;
+    border-radius: 6px;
+
+    padding: 10px 25px;
+
     font-family: Georgia, serif;
     font-size: 14px;
+
     cursor: pointer;
-    touch-action: manipulation;
 }
 
-.nav-button:hover:not(:disabled) {
+.nav-button:hover {
     background: #333;
 }
 
@@ -222,38 +157,34 @@ body {
     cursor: default;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media (max-width: 600px) {
 
     .top-bar {
-        height: 62px;
+        height: 60px;
     }
 
     .part-button {
-        padding: 9px 18px;
+        padding: 8px 18px;
         font-size: 13px;
     }
 
-    .book-container {
-        height: calc(100vh - 122px);
+    .book-area {
+        height: calc(100vh - 120px);
         padding: 8px;
     }
 
-    .book {
-        width: 98vw;
+    .slide {
+        padding: 25px 23px 20px;
     }
 
-    .page {
-        padding: 24px 22px;
-    }
-
-    .page-content {
+    .story {
         font-size: 15px;
         line-height: 1.42;
     }
 
-    .page-content p {
+    .story p {
         margin-bottom: 9px;
     }
 
@@ -263,41 +194,61 @@ body {
     }
 
     .nav-button {
-        min-width: 95px;
-        padding: 9px 13px;
+        padding: 9px 16px;
         font-size: 13px;
     }
 }
 </style>
 </head>
 
+
 <body>
 
+
+<!-- ================= PART SELECTOR ================= -->
+
 <div class="top-bar">
-    <button class="part-button active" id="part1Button" onclick="showPart(1)">
+
+    <button
+        class="part-button active"
+        id="part1Button"
+        onclick="switchPart(1)">
         Part 1
     </button>
 
-    <button class="part-button" id="part2Button" onclick="showPart(2)">
+    <button
+        class="part-button"
+        id="part2Button"
+        onclick="switchPart(2)">
         Part 2
     </button>
+
 </div>
 
 
-<div class="book-container">
+<!-- ================= BOOK ================= -->
+
+<div class="book-area">
+
 <div class="book">
 
 
-<!-- ================= PART 1 ================= -->
+<!-- ================================================= -->
+<!-- ===================== PART 1 ==================== -->
+<!-- ================================================= -->
 
-<div class="page current part1" data-page="0">
-<div class="page-content">
+
+<div class="slide part1 active">
+
+<div class="story">
 
 <p>The bell rang at 10:17.</p>
 
 <p>For everyone else, it meant the beginning of break. For Andrey, it meant the beginning of the war.</p>
 
-<p>The corridor outside the sixth-form common room erupted instantly. Doors slammed. Shoes squeaked against the polished floor. Someone shouted that they had lost their calculator. Someone else shouted that they had found it. A Year 10 sprinted around the corner at a speed that suggested either extreme urgency or the discovery of a fire.</p>
+<p>The corridor outside the sixth-form common room erupted instantly. Doors slammed. Shoes squeaked against the polished floor. Someone shouted that they had lost their calculator. Someone else shouted that they had found it.</p>
+
+<p>A Year 10 sprinted around the corner at a speed that suggested either extreme urgency or the discovery of a fire.</p>
 
 <p>Andrey stood against the wall, watching it all. He had a notebook tucked underneath one arm, but it hadn't been opened all morning.</p>
 
@@ -326,12 +277,16 @@ body {
 <p>“No.”</p>
 
 </div>
+
 <div class="page-number">Part 1 · 1</div>
+
 </div>
 
 
-<div class="page part1" data-page="1">
-<div class="page-content">
+
+<div class="slide part1">
+
+<div class="story">
 
 <p>Oliver adjusted his glasses. It was irritating. Not because Andrey was lazy. Oliver could tolerate laziness. Not because Andrey was arrogant. Oliver had met arrogant people before.</p>
 
@@ -361,17 +316,21 @@ body {
 
 <p>Andrey walked away.</p>
 
-</div>
-<div class="page-number">Part 1 · 2</div>
-</div>
-
-
-<div class="page part1" data-page="2">
-<div class="page-content">
-
 <p>Across the corridor, Ben Negus had begun explaining why Andrey was wrong. Nobody had asked.</p>
 
 <p>That had never stopped him.</p>
+
+</div>
+
+<div class="page-number">Part 1 · 2</div>
+
+</div>
+
+
+
+<div class="slide part1">
+
+<div class="story">
 
 <p>“According to authority,” Ben said, raising one finger, “the education system exists for a reason. Therefore, saying it's imaginary is objectively—”</p>
 
@@ -408,12 +367,16 @@ body {
 <p>“That's probably them.”</p>
 
 </div>
+
 <div class="page-number">Part 1 · 3</div>
+
 </div>
 
 
-<div class="page part1" data-page="3">
-<div class="page-content">
+
+<div class="slide part1">
+
+<div class="story">
 
 <p>It was.</p>
 
@@ -445,6 +408,18 @@ body {
 
 <p>Charlie was rich, and everyone knew it. He had the particular confidence of someone who had never needed to check the price before ordering something.</p>
 
+</div>
+
+<div class="page-number">Part 1 · 4</div>
+
+</div>
+
+
+
+<div class="slide part1">
+
+<div class="story">
+
 <p>Beside him walked Ben Tuson.</p>
 
 <p>Tuson laughed at something Charlie said.</p>
@@ -471,14 +446,6 @@ body {
 
 <p>Almost.</p>
 
-</div>
-<div class="page-number">Part 1 · 4</div>
-</div>
-
-
-<div class="page part1" data-page="4">
-<div class="page-content">
-
 <p>From the end of the corridor, Violet Turner watched them.</p>
 
 <p>Isla stood beside her.</p>
@@ -486,6 +453,18 @@ body {
 <p>The twins were universally considered sweet. Polite. Helpful. The kind of people teachers trusted instinctively.</p>
 
 <p>They smiled when spoken to. They held doors open. They remembered people's birthdays.</p>
+
+</div>
+
+<div class="page-number">Part 1 · 5</div>
+
+</div>
+
+
+
+<div class="slide part1">
+
+<div class="story">
 
 <p>And nobody noticed the way Violet's eyes followed the corridor.</p>
 
@@ -513,14 +492,6 @@ body {
 
 <p>Yet.</p>
 
-</div>
-<div class="page-number">Part 1 · 5</div>
-</div>
-
-
-<div class="page part1" data-page="5">
-<div class="page-content">
-
 <p>“Move.”</p>
 
 <p>The voice came from behind him.</p>
@@ -528,6 +499,18 @@ body {
 <p>Simeon turned.</p>
 
 <p>Samuel.</p>
+
+</div>
+
+<div class="page-number">Part 1 · 6</div>
+
+</div>
+
+
+
+<div class="slide part1">
+
+<div class="story">
 
 <p>For half a second, the corridor became quieter.</p>
 
@@ -563,6 +546,18 @@ body {
 
 <p>“Conflict,” Aaron said calmly, “is usually caused by attachment.”</p>
 
+</div>
+
+<div class="page-number">Part 1 · 7</div>
+
+</div>
+
+
+
+<div class="slide part1">
+
+<div class="story">
+
 <p>Sam nodded.</p>
 
 <p>“Yeah.”</p>
@@ -582,14 +577,6 @@ body {
 <p>“It did.”</p>
 
 <p>Aaron walked away.</p>
-
-</div>
-<div class="page-number">Part 1 · 6</div>
-</div>
-
-
-<div class="page part1" data-page="6">
-<div class="page-content">
 
 <p>Simeon watched him go.</p>
 
@@ -617,6 +604,18 @@ body {
 
 <p>“About the exam.”</p>
 
+</div>
+
+<div class="page-number">Part 1 · 8</div>
+
+</div>
+
+
+
+<div class="slide part1">
+
+<div class="story">
+
 <p>Isla smiled.</p>
 
 <p>“No.”</p>
@@ -630,14 +629,6 @@ body {
 <p>Then both laughed.</p>
 
 <p>Quietly.</p>
-
-</div>
-<div class="page-number">Part 1 · 7</div>
-</div>
-
-
-<div class="page part1" data-page="7">
-<div class="page-content">
 
 <p>At the other end of the corridor, Andrey stopped.</p>
 
@@ -660,14 +651,21 @@ body {
 <p>lie?</p>
 
 </div>
-<div class="page-number">Part 1 · 8</div>
+
+<div class="page-number">Part 1 · 9</div>
+
 </div>
 
 
-<!-- ================= PART 2 ================= -->
 
-<div class="page part2" data-page="0">
-<div class="page-content">
+<!-- ================================================= -->
+<!-- ===================== PART 2 ==================== -->
+<!-- ================================================= -->
+
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>Spiros hated mornings.</p>
 
@@ -681,7 +679,21 @@ body {
 
 <p>Everyone seemed to like Spiros.</p>
 
-<p>He couldn't walk through the sixth-form corridor without somebody saying his name. Girls whispered when he passed. Someone had once asked for his Instagram while he was literally standing in front of a teacher. Another had mysteriously developed an interest in Greek history after learning where he was from.</p>
+<p>He couldn't walk through the sixth-form corridor without somebody saying his name. Girls whispered when he passed. Someone had once asked for his Instagram while he was literally standing in front of a teacher.</p>
+
+<p>Another had mysteriously developed an interest in Greek history after learning where he was from.</p>
+
+</div>
+
+<div class="page-number">Part 2 · 1</div>
+
+</div>
+
+
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>Spiros found the whole thing slightly ridiculous.</p>
 
@@ -704,12 +716,16 @@ body {
 <p>He hoped he hadn't.</p>
 
 </div>
-<div class="page-number">Part 2 · 1</div>
+
+<div class="page-number">Part 2 · 2</div>
+
 </div>
 
 
-<div class="page part2" data-page="1">
-<div class="page-content">
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>The school gates opened at eight.</p>
 
@@ -731,7 +747,21 @@ body {
 
 <p>The school had been divided into factions.</p>
 
-<p>The serious athletes had formed one group near the track. The academic students were gathered near the seating area. The sixth formers had taken over one corner of the field. Everyone else seemed to be arguing over who was supposed to be competing in what.</p>
+<p>The serious athletes had formed one group near the track. The academic students were gathered near the seating area.</p>
+
+</div>
+
+<div class="page-number">Part 2 · 3</div>
+
+</div>
+
+
+
+<div class="slide part2">
+
+<div class="story">
+
+<p>The sixth formers had taken over one corner of the field. Everyone else seemed to be arguing over who was supposed to be competing in what.</p>
 
 <p>Oliver was standing with a clipboard.</p>
 
@@ -776,12 +806,16 @@ body {
 <p>Everyone moved.</p>
 
 </div>
-<div class="page-number">Part 2 · 2</div>
+
+<div class="page-number">Part 2 · 4</div>
+
 </div>
 
 
-<div class="page part2" data-page="2">
-<div class="page-content">
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>For about thirty seconds.</p>
 
@@ -810,6 +844,18 @@ body {
 <p>They weren't watching the races.</p>
 
 <p>They were watching the other students.</p>
+
+</div>
+
+<div class="page-number">Part 2 · 5</div>
+
+</div>
+
+
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>Then Dersim ran towards Andrey.</p>
 
@@ -856,12 +902,16 @@ body {
 <p>Oliver's expression tightened.</p>
 
 </div>
-<div class="page-number">Part 2 · 3</div>
+
+<div class="page-number">Part 2 · 6</div>
+
 </div>
 
 
-<div class="page part2" data-page="3">
-<div class="page-content">
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>Andrey stood up.</p>
 
@@ -902,6 +952,18 @@ body {
 <p>A fence.</p>
 
 <p>A discarded athletics cone.</p>
+
+</div>
+
+<div class="page-number">Part 2 · 7</div>
+
+</div>
+
+
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>Andrey crouched down.</p>
 
@@ -944,12 +1006,16 @@ body {
 <p>“No.”</p>
 
 </div>
-<div class="page-number">Part 2 · 4</div>
+
+<div class="page-number">Part 2 · 8</div>
+
 </div>
 
 
-<div class="page part2" data-page="4">
-<div class="page-content">
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>Dersim looked at Oliver.</p>
 
@@ -993,6 +1059,18 @@ body {
 
 <p>“How?”</p>
 
+</div>
+
+<div class="page-number">Part 2 · 9</div>
+
+</div>
+
+
+
+<div class="slide part2">
+
+<div class="story">
+
 <p>Andrey looked across the field.</p>
 
 <p>“Because I've seen it before.”</p>
@@ -1013,14 +1091,6 @@ body {
 
 <p>Specifically, towards the windows of the oldest block.</p>
 
-</div>
-<div class="page-number">Part 2 · 5</div>
-</div>
-
-
-<div class="page part2" data-page="5">
-<div class="page-content">
-
 <p>Spiros followed his gaze.</p>
 
 <p>“What's in there?”</p>
@@ -1040,6 +1110,18 @@ body {
 <p>“Probably.”</p>
 
 <p>Dersim considered this.</p>
+
+</div>
+
+<div class="page-number">Part 2 · 10</div>
+
+</div>
+
+
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>“Should we tell someone?”</p>
 
@@ -1092,12 +1174,16 @@ body {
 <p>“So?”</p>
 
 </div>
-<div class="page-number">Part 2 · 6</div>
+
+<div class="page-number">Part 2 · 11</div>
+
 </div>
 
 
-<div class="page part2" data-page="6">
-<div class="page-content">
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>So everyone needs to stop acting like separate groups.</p>
 
@@ -1131,6 +1217,18 @@ body {
 
 <p>Dersim and Sam seemed to think nothing mattered.</p>
 
+</div>
+
+<div class="page-number">Part 2 · 12</div>
+
+</div>
+
+
+
+<div class="slide part2">
+
+<div class="story">
+
 <p>The Turner twins smiled as if none of it concerned them.</p>
 
 <p>And Simeon looked ready to fight somebody.</p>
@@ -1151,14 +1249,6 @@ body {
 
 <p>And for the first time that day, everyone stopped talking.</p>
 
-</div>
-<div class="page-number">Part 2 · 7</div>
-</div>
-
-
-<div class="page part2" data-page="7">
-<div class="page-content">
-
 <p>They watched.</p>
 
 <p>They realised the same thing.</p>
@@ -1168,6 +1258,18 @@ body {
 <p>And the strangest part was that, somewhere behind the athletics field, something impossible was moving through the air.</p>
 
 <p>Magic was real.</p>
+
+</div>
+
+<div class="page-number">Part 2 · 13</div>
+
+</div>
+
+
+
+<div class="slide part2">
+
+<div class="story">
 
 <p>The trophy was slipping away.</p>
 
@@ -1186,21 +1288,32 @@ body {
 <p>And the entire school turned towards him.</p>
 
 </div>
-<div class="page-number">Part 2 · 8</div>
+
+<div class="page-number">Part 2 · 14</div>
+
 </div>
+
 
 </div>
 </div>
 
+
+<!-- ================= BOTTOM ================= -->
 
 <div class="bottom-bar">
 
-<button class="nav-button" id="previousButton" onclick="previousPage()">
-← Previous
+<button
+    class="nav-button"
+    id="previousButton"
+    onclick="previousSlide()">
+    ← Previous
 </button>
 
-<button class="nav-button" id="nextButton" onclick="nextPage()">
-Next →
+<button
+    class="nav-button"
+    id="nextButton"
+    onclick="nextSlide()">
+    Next →
 </button>
 
 </div>
@@ -1209,168 +1322,62 @@ Next →
 <script>
 
 let currentPart = 1;
-let currentPage = 0;
-let isAnimating = false;
-
-const totalPages = 8;
+let currentSlide = 0;
 
 
-/* GET CURRENT PART */
+/* GET SLIDES */
 
-function getPages() {
-    return document.querySelectorAll(".page.part" + currentPart);
+function getSlides() {
+    return document.querySelectorAll(".slide.part" + currentPart);
 }
 
 
-/* FIT TEXT */
+/* SHOW SLIDE */
 
-function fitText() {
+function showSlide() {
 
-    const pages = document.querySelectorAll(".page-content");
+    const slides = getSlides();
 
-    pages.forEach(content => {
-
-        content.style.fontSize = "";
-
-        let size = parseFloat(
-            getComputedStyle(content).fontSize
-        );
-
-        while (
-            content.scrollHeight > content.clientHeight &&
-            size > 8
-        ) {
-            size -= 0.25;
-            content.style.fontSize = size + "px";
-        }
-    });
-}
-
-
-/* BUTTONS */
-
-function updateButtons() {
-
-    document.getElementById("previousButton").disabled =
-        currentPage === 0;
-
-    document.getElementById("nextButton").disabled =
-        currentPage === totalPages - 1;
-}
-
-
-/* DISPLAY PAGE */
-
-function renderPage() {
-
-    document.querySelectorAll(".page").forEach(page => {
-
-        page.classList.remove("current");
-        page.classList.remove("flip-next");
-        page.classList.remove("flip-previous");
-
-        page.style.visibility = "";
-        page.style.opacity = "";
-
+    document.querySelectorAll(".slide").forEach(slide => {
+        slide.classList.remove("active");
     });
 
-    const pages = getPages();
-
-    pages[currentPage].classList.add("current");
+    slides[currentSlide].classList.add("active");
 
     updateButtons();
-
-    setTimeout(fitText, 20);
 }
 
 
-/* NEXT PAGE */
+/* NEXT */
 
-function nextPage() {
+function nextSlide() {
 
-    if (isAnimating || currentPage >= totalPages - 1)
-        return;
+    const slides = getSlides();
 
-    isAnimating = true;
-
-    const pages = getPages();
-
-    const oldPage = pages[currentPage];
-    const newPage = pages[currentPage + 1];
-
-    newPage.classList.add("current");
-
-    oldPage.classList.add("flip-next");
-
-    currentPage++;
-
-    updateButtons();
-
-    setTimeout(() => {
-
-        oldPage.classList.remove("flip-next");
-
-        oldPage.classList.remove("current");
-
-        oldPage.style.visibility = "hidden";
-        oldPage.style.opacity = "0";
-
-        isAnimating = false;
-
-        fitText();
-
-    }, 850);
+    if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        showSlide();
+    }
 }
 
 
-/* PREVIOUS PAGE */
+/* PREVIOUS */
 
-function previousPage() {
+function previousSlide() {
 
-    if (isAnimating || currentPage <= 0)
-        return;
-
-    isAnimating = true;
-
-    const pages = getPages();
-
-    const oldPage = pages[currentPage];
-    const newPage = pages[currentPage - 1];
-
-    newPage.classList.add("current");
-
-    oldPage.classList.add("flip-previous");
-
-    currentPage--;
-
-    updateButtons();
-
-    setTimeout(() => {
-
-        oldPage.classList.remove("flip-previous");
-
-        oldPage.classList.remove("current");
-
-        oldPage.style.visibility = "hidden";
-        oldPage.style.opacity = "0";
-
-        isAnimating = false;
-
-        fitText();
-
-    }, 850);
+    if (currentSlide > 0) {
+        currentSlide--;
+        showSlide();
+    }
 }
 
 
 /* SWITCH PART */
 
-function showPart(part) {
-
-    if (isAnimating)
-        return;
+function switchPart(part) {
 
     currentPart = part;
-    currentPage = 0;
+    currentSlide = 0;
 
     document.getElementById("part1Button")
         .classList.toggle("active", part === 1);
@@ -1378,7 +1385,21 @@ function showPart(part) {
     document.getElementById("part2Button")
         .classList.toggle("active", part === 2);
 
-    renderPage();
+    showSlide();
+}
+
+
+/* BUTTON STATES */
+
+function updateButtons() {
+
+    const slides = getSlides();
+
+    document.getElementById("previousButton").disabled =
+        currentSlide === 0;
+
+    document.getElementById("nextButton").disabled =
+        currentSlide === slides.length - 1;
 }
 
 
@@ -1387,30 +1408,19 @@ function showPart(part) {
 document.addEventListener("keydown", function(event) {
 
     if (event.key === "ArrowRight") {
-        nextPage();
+        nextSlide();
     }
 
     if (event.key === "ArrowLeft") {
-        previousPage();
+        previousSlide();
     }
 
 });
-
-
-/* RESIZE */
-
-window.addEventListener("resize", fitText);
 
 
 /* START */
 
-window.addEventListener("load", function() {
-
-    renderPage();
-
-    setTimeout(fitText, 100);
-
-});
+showSlide();
 
 </script>
 
