@@ -1369,14 +1369,14 @@ let currentPart = 1;
 let currentSlide = 0;
 
 
-/* GET SLIDES */
+/* ================= GET SLIDES ================= */
 
 function getSlides() {
     return document.querySelectorAll(".slide.part" + currentPart);
 }
 
 
-/* SHOW SLIDE */
+/* ================= SHOW SLIDE ================= */
 
 function showSlide() {
 
@@ -1392,7 +1392,7 @@ function showSlide() {
 }
 
 
-/* NEXT */
+/* ================= NEXT ================= */
 
 function nextSlide() {
 
@@ -1405,7 +1405,7 @@ function nextSlide() {
 }
 
 
-/* PREVIOUS */
+/* ================= PREVIOUS ================= */
 
 function previousSlide() {
 
@@ -1416,7 +1416,7 @@ function previousSlide() {
 }
 
 
-/* SWITCH PART */
+/* ================= SWITCH PART ================= */
 
 function switchPart(part) {
 
@@ -1433,7 +1433,7 @@ function switchPart(part) {
 }
 
 
-/* BUTTON STATES */
+/* ================= BUTTON STATES ================= */
 
 function updateButtons() {
 
@@ -1447,7 +1447,7 @@ function updateButtons() {
 }
 
 
-/* KEYBOARD */
+/* ================= PC KEYBOARD ================= */
 
 document.addEventListener("keydown", function(event) {
 
@@ -1462,7 +1462,52 @@ document.addEventListener("keydown", function(event) {
 });
 
 
-/* START */
+/* ================= MOBILE SWIPE ================= */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener("touchstart", function(event) {
+
+    touchStartX = event.changedTouches[0].screenX;
+
+}, { passive: true });
+
+
+document.addEventListener("touchend", function(event) {
+
+    touchEndX = event.changedTouches[0].screenX;
+
+    handleSwipe();
+
+}, { passive: true });
+
+
+function handleSwipe() {
+
+    const swipeDistance = touchEndX - touchStartX;
+
+    /* Ignore tiny movements */
+
+    if (Math.abs(swipeDistance) < 50) {
+        return;
+    }
+
+    /* Swipe LEFT = NEXT */
+
+    if (swipeDistance < 0) {
+        nextSlide();
+    }
+
+    /* Swipe RIGHT = PREVIOUS */
+
+    if (swipeDistance > 0) {
+        previousSlide();
+    }
+}
+
+
+/* ================= START ================= */
 
 showSlide();
 
