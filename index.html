@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Corridor Theory</title>
+
+<style>
+    :root {
+        --background: #07080c;
+        --background2: #151820;
+        --paper: #eee9dc;
+        --paper-dark: #ddd5c5;
+        --text: #17171a;
+        --gold: #d6b36a;
+        --muted: #999da8;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        color: white;
+        font-family: Georgia, "Times New Roman", serif;
+
+        background:
+            radial-gradient(
+                circle at 50% 0%,
+                #292d38 0%,
+                #101219 35%,
+                #07080c 70%
+            );
+    }
+
+    /* ---------------- HEADER ---------------- */
+
+    header {
+        text-align: center;
+        padding: 42px 18px 20px;
+    }
+
+    .eyebrow {
+        font-family: Arial, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        font-size: 11px;
+        color: var(--gold);
+        margin-bottom: 14px;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: clamp(2.5rem, 9vw, 5.5rem);
+        letter-spacing: 0.04em;
+        line-height: 0.95;
+    }
+
+    .subtitle {
+        margin-top: 14px;
+        color: var(--muted);
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+
+    /* ---------------- MAIN ---------------- */
+
+    .container {
+        width: min(1000px, 94%);
+        margin: auto;
+        padding-bottom: 40px;
+    }
+
+    /* ---------------- PART BUTTONS ---------------- */
+
+    .parts {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .part-button {
+        border: 1px solid #444852;
+        background: #11141b;
+        color: #ddd;
+
+        padding: 11px 22px;
+        border-radius: 8px;
+
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .part-button:hover {
+        background: #20242d;
+    }
+
+    .part-button.active {
+        color: var(--gold);
+        border-color: var(--gold);
+    }
+
+    /* ---------------- BOOK ---------------- */
+
+    .book {
+        perspective: 1600px;
+        min-height: 620px;
+    }
+
+    .page {
+        display: none;
+
+        position: relative;
+
+        min-height: 620px;
+
+        padding:
+            clamp(30px, 6vw, 70px)
+            clamp(25px, 7vw, 80px);
+
+        color: var(--text);
+
+        background:
+            linear-gradient(
+                90deg,
+                #d7d0c2 0%,
+                var(--paper) 5%,
+                #f5f0e5 50%,
+                var(--paper) 95%,
+                var(--paper-dark) 100%
+            );
+
+        border-radius: 5px 14px 14px 5px;
+
+        box-shadow:
+            0 25px 70px rgba(0,0,0,0.7),
+            inset 12px 0 25px rgba(0,0,0,0.06);
+
+        overflow: hidden;
+    }
+
+    .page.active {
+        display: block;
+        animation: pageIn 0.35s ease;
+    }
+
+    @keyframes pageIn {
+        from {
+            opacity: 0;
+            transform: rotateY(-7deg) translateX(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: rotateY(0deg) translateX(0);
+        }
+    }
+
+    /* Paper texture */
+
+    .page::after {
+        content: "";
+        pointer-events: none;
+
+        position: absolute;
+        inset: 0;
+
+        opacity: 0.08;
+
+        background-image:
+            repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 3px,
+                rgba(0,0,0,0.08) 4px
+            );
+    }
+
+    .page-number {
+        position: relative;
+        z-index: 2;
+
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+
+        color: #777;
+
+        padding-bottom: 12px;
+        margin-bottom: 30px;
+
+        border-bottom: 1px solid #bcb3a5;
+    }
+
+    .page h2 {
+        position: relative;
+        z-index: 2;
+
+        margin: 0 0 28px;
+
+        font-size: clamp(1.8rem, 6vw, 3.2rem);
+        line-height: 1.05;
+    }
+
+    .story {
+        position: relative;
+        z-index: 2;
+    }
+
+    .story p {
+        font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+        line-height: 1.85;
+
+        margin: 0 0 1.2em;
+    }
+
+    .story .dialogue {
+        margin-left: 1.2em;
+    }
+
+    .story .dramatic {
+        font-style: italic;
+    }
+
+    /* ---------------- CONTROLS ---------------- */
+
+    .controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        gap: 15px;
+
+        margin-top: 20px;
+    }
+
+    .control-button {
+        border: 1px solid #454952;
+        background: #151820;
+        color: white;
+
+        padding: 12px 22px;
+
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+
+        transition: 0.2s;
+    }
+
+    .control-button:hover {
+        background: #262a34;
+    }
+
+    .control-button:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    .counter {
+        color: #aaa;
+        min-width: 75px;
+        text-align: center;
+
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+    }
+
+    /* ---------------- HINT ---------------- */
+
+    .hint {
+        text-align: center;
+
+        margin-top: 16px;
+
+        color: #777;
+
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+    }
+
+    /* ---------------- FOOTER ---------------- */
+
+    footer {
+        text-align: center;
+
+        padding: 20px;
+
+        color: #555;
+
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+    }
+
+    /* ---------------- MOBILE ---------------- */
+
+    @media (max-width: 600px) {
+
+        header {
+            padding-top: 28px;
+        }
+
+        .book {
+            min-height: 70vh;
+        }
+
+        .page {
+            min-height: 70vh;
+
+            padding:
+                28px
+                22px;
+        }
+
+        .page h2 {
+            font-size: 2rem;
+        }
+
+        .story p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .controls {
+            position: sticky;
+            bottom: 8px;
+
+            padding: 9px;
+
+            background: rgba(7,8,12,0.92);
+
+            border-radius: 12px;
+
+            z-index: 20;
+        }
+
+        .control-button {
+            padding: 10px 15px;
+        }
+    }
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="eyebrow">
+        A School Mystery
+    </div>
+
+    <h1>
+        The Corridor Theory
+    </h1>
+
+    <div class="subtitle">
+        Part I &nbsp;•&nbsp; Part II
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- PART SELECTOR -->
+
+    <div class="parts">
+
+        <button
+            class="part-button active"
+            data-part="1">
+            Part 1
+        </button>
+
+        <button
+            class="part-button"
+            data-part="2">
+            Part 2
+        </button>
+
+    </div>
+
+
+    <!-- BOOK -->
+
+    <div
+        class="book"
+        id="book">
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="controls">
+
+        <button
+            class="control-button"
+            id="previous">
+            ← Previous
+        </button>
+
+        <div
+            class="counter"
+            id="counter">
+        </div>
+
+        <button
+            class="control-button"
+            id="next">
+            Next →
+        </button>
+
+    </div>
+
+
+    <div class="hint">
+        Swipe left/right on mobile • Use ← → on keyboard
+    </div>
+
+</main>
+
+
+<footer>
+    The Corridor Theory
+</footer>
+
+
+<script>
+
+/* =========================================================
+   STORY DATA
+   ========================================================= */
+
+const story = {
+
+    1: {
+
+        title: "The Corridor Theory — Part 1",
+
+        pages: [
+
+            {
+                title: "The Beginning",
+
+                text: `
+                <p>
+                    The bell rang at 10:17.
+                </p>
+
+                <p>
+                    For everyone else, it meant the beginning of break.
+                    For Andrey, it meant the beginning of the war.
+                </p>
+                `
+            },
+
+
+            {
+                title: "The Corridor",
+
+                text: `
+                <p>
+                    The corridor erupted into its usual chaos.
+                </p>
+
+                <p>
+                    Oliver noticed something immediately:
+                    Andrey hadn't revised.
+                </p>
+
+                <p>
+                    Oliver treated school like a mountain.
+                    He memorised specifications, mark schemes and every
+                    tiny detail he could find.
+                </p>
+
+                <p>
+                    Andrey looked at the whole thing differently.
+                </p>
+
+                <p class="dialogue">
+                    “I'm not worried.”
+                </p>
+
+                <p class="dialogue">
+                    Oliver stared at him.
+                    “You should be.”
+                </p>
+
+                <p class="dialogue">
+                    Andrey shrugged.
+                    “The system is imaginary.”
+                </p>
+                `
+            },
+
+
+            {
+                title: "Authority",
+
+                text: `
+                <p>
+                    Ben Negus stepped in, explaining why Andrey was wrong
+                    with the confidence of someone who had already decided
+                    he had won.
+                </p>
+
+                <p>
+                    His argument relied heavily on what teachers,
+                    textbooks and other authorities supposedly said.
+                </p>
+
+                <p>
+                    Andrey stopped him almost immediately.
+                </p>
+
+                <p class="dialogue">
+                    “That's an appeal to authority. Someone being an
+                    authority doesn't automatically make the claim true.”
+                </p>
+
+                <p class="dialogue">
+                    Sam looked at Dersim.
+                    “He's cooked.”
+                </p>
+
+                <p class="dialogue">
+                    Dersim nodded slowly.
+                    “I have absolutely no idea what's happening.”
+                </p>
+                `
+            },
+
+
+            {
+                title: "The Bin",
+
+                text: `
+                <p>
+                    A bin suddenly tipped over.
+                </p>
+
+                <p>
+                    Everyone looked around.
+                </p>
+
+                <p class="dialogue">
+                    “Wasn't me,” said Dersim.
+                </p>
+
+                <p class="dialogue">
+                    “Wasn't me,” said Sam.
+                </p>
+
+                <p class="dialogue">
+                    Sam folded his arms.
+                    “Correlation isn't causation.”
+                </p>
+
+                <p>
+                    Andrey paused.
+                </p>
+
+                <p class="dialogue">
+                    “No.”
+                </p>
+
+                <p class="dialogue">
+                    Sam looked disappointed.
+                    “Was that not good?”
+                </p>
+
+                <p class="dialogue">
+                    “No.”
+                </p>
+                `
+            },
+
+
+            {
+                title: "Charlie & Tuson",
+
+                text: `
+                <p>
+                    Charlie arrived with Tuson beside him.
+                </p>
+
+                <p>
+                    Charlie casually revealed his phone and a
+                    limited-edition item, as if it had only happened
+                    to be there.
+                </p>
+
+                <p>
+                    Tuson's enthusiasm increased.
+                </p>
+
+                <p class="dramatic">
+                    It was subtle.
+                    Almost invisible.
+                    Almost.
+                </p>
+
+                <p>
+                    Charlie knew exactly what he was doing.
+                    Tuson knew exactly what he was doing too.
+                    Somehow, neither seemed bothered.
+                </p>
+                `
+            },
+
+
+            {
+                title: "The Twins",
+
+                text: `
+                <p>
+                    Violet and Isla watched from nearby.
+                </p>
+
+                <p>
+                    Everyone thought the Turner twins were sweet.
+                    Polite. Helpful.
+                    The kind of people teachers trusted instantly.
+                </p>
+
+                <p>
+                    Underneath that reputation, they were calculating
+                    something completely different:
+                    who could be manipulated, which teachers could be
+                    persuaded, and which secrets were valuable.
+                </p>
+
+                <p>
+                    Nobody knew.
+                </p>
+
+                <p>
+                    Almost nobody.
+                </p>
+
+                <p>
+                    Simeon had started noticing things.
+                </p>
+                `
+            },
+
+
+            {
+                title: "Simeon",
+
+                text: `
+                <p>
+                    Simeon looked across the corridor at Charlie,
+                    Tuson and Andrey.
+                </p>
+
+                <p>
+                    Something wasn't right.
+                </p>
+
+                <p>
+                    Before he could work out what, Samuel appeared.
+                </p>
+
+                <p class="dialogue">
+                    “Move.”
+                </p>
+
+                <p>
+                    The two stared at each other.
+                </p>
+
+                <p>
+                    Their previous fight had ended in a draw.
+                </p>
+
+                <p>
+                    Neither had forgotten.
+                </p>
+                `
+            },
+
+
+            {
+                title: "Aaron",
+
+                text: `
+                <p>
+                    Aaron appeared calmly between them.
+                </p>
+
+                <p>
+                    The Chinese monk looked from one to the other.
+                </p>
+
+                <p class="dialogue">
+                    “Conflict is usually caused by attachment.”
+                </p>
+
+                <p>
+                    Sam and Dersim nodded as if this made perfect sense.
+                </p>
+
+                <p>
+                    It didn't.
+                </p>
+
+                <p>
+                    Aaron walked away.
+                </p>
+                `
+            },
+
+
+            {
+                title: "A Secret",
+
+                text: `
+                <p>
+                    The bell had already gone, but the Turner twins
+                    stayed behind.
+                </p>
+
+                <p class="dialogue">
+                    Isla looked at Violet.
+                    “Did you hear about the exam?”
+                </p>
+
+                <p class="dialogue">
+                    “No,” Isla lied.
+                </p>
+
+                <p class="dialogue">
+                    Violet smiled.
+                    “You're lying.”
+                </p>
+
+                <p class="dialogue">
+                    “So are you.”
+                </p>
+
+                <p>
+                    They laughed quietly.
+                </p>
+
+                <p>
+                    Andrey heard them from further down the corridor.
+                </p>
+
+                <p>
+                    Not enough to understand.
+                </p>
+
+                <p>
+                    Enough to remember.
+                </p>
+
+                <p class="dramatic">
+                    Why would two people who had nothing to gain
+                    from lying… lie?
+                </p>
+                `
+            }
+
+        ]
+
+    },
+
+
+    2: {
+
+        title: "The Corridor Theory — Part 2",
+
+        pages: [
+
+            {
+                title: "Spiros",
+
+                text: `
+                <p>
+                    Spiros hated mornings.
+                </p>
+
+                <p>
+                    Not because he was tired.
+                </p>
+
+                <p>
+                    He was rarely tired.
+                </p>
+
+                <p>
+                    He hated them because mornings at school were
+                    predictable.
+                </p>
+                `
+            },
+
+
+            {
+                title: "The Problem",
+
+                text: `
+                <p>
+                    Everyone seemed to like Spiros.
+                </p>
+
+                <p>
+                    Girls whispered when he walked past.
+                    Some asked for his Instagram.
+                    One had apparently become interested in Greek history
+                    after discovering he was Greek.
+                </p>
+
+                <p>
+                    Spiros knew people considered him attractive.
+                </p>
+
+                <p>
+                    He didn't care.
+                </p>
+
+                <p>
+                    He liked one person.
+                </p>
+
+                <p>
+                    Nobody knew who.
+                </p>
+
+                <p>
+                    Harrison might know.
+                </p>
+
+                <p>
+                    Andrey might know.
+                </p>
+                `
+            },
+
+
+            {
+                title: "Sports Day",
+
+                text: `
+                <p>
+                    Six schools had arrived for Sports Day.
+                </p>
+
+                <p>
+                    The previous year, their school had lost by three
+                    points.
+                </p>
+
+                <p>
+                    This year, the PE department was prepared.
+                </p>
+
+                <p>
+                    The students were not.
+                </p>
+
+                <p>
+                    The serious athletes warmed up.
+                    Academic students argued about strategy.
+                    Sixth formers formed their own groups.
+                    Everyone else mostly argued.
+                </p>
+                `
+            },
+
+
+            {
+                title: "The Factions",
+
+                text: `
+                <p>
+                    Oliver stood with a clipboard.
+                </p>
+
+                <p class="dialogue">
+                    “I'd rather be sleeping,” Andrey said.
+                </p>
+
+                <p>
+                    Dersim was somehow at the wrong event.
+                    Sam was arguing with a teacher.
+                    Simeon was complaining.
+                    Charlie was boasting about equipment,
+                    while Tuson agreed with him.
+                </p>
+
+                <p>
+                    Ben Negus was explaining strategy.
+                </p>
+
+                <p>
+                    The Turner twins watched.
+                </p>
+
+                <p>
+                    But Spiros noticed something strange.
+                </p>
+
+                <p>
+                    They weren't watching the races.
+                </p>
+
+                <p class="dramatic">
+                    They were watching the students.
+                </p>
+                `
+            },
+
+
+            {
+                title: "Magic",
+
+                text: `
+                <p>
+                    Dersim suddenly ran towards Andrey.
+                </p>
+
+                <p class="dialogue">
+                    “I've discovered something.”
+                </p>
+
+                <p class="dialogue">
+                    Andrey looked up.
+                    “That's never a good sentence.”
+                </p>
+
+                <p class="dialogue">
+                    “There's magic.”
+                </p>
+
+                <p>
+                    Oliver immediately dismissed it.
+                </p>
+
+                <p class="dialogue">
+                    “There's no such thing as magic.”
+                </p>
+
+                <p class="dialogue">
+                    “Neek,” Dersim muttered.
+                </p>
+
+                <p class="dialogue">
+                    Andrey stood up.
+                    “Show me.”
+                </p>
+                `
+            },
+
+
+            {
+                title: "The Shimmer",
+
+                text: `
+                <p>
+                    Behind the equipment shed, Dersim pointed towards
+                    empty air.
+                </p>
+
+                <p>
+                    For less than a second, the space in front of them
+                    shimmered.
+                </p>
+
+                <p>
+                    Andrey saw it.
+                </p>
+
+                <p>
+                    He didn't immediately say he believed Dersim.
+                </p>
+
+                <p>
+                    He simply stared at the place where it had been.
+                </p>
+                `
+            },
+
+
+            {
+                title: "I Know",
+
+                text: `
+                <p class="dialogue">
+                    “I told you because you're naturally smart,”
+                    Dersim said.
+                    “Oliver's a neek who studies.”
+                </p>
+
+                <p>
+                    Andrey nodded.
+                </p>
+
+                <p class="dialogue">
+                    “I know.”
+                </p>
+
+                <p>
+                    Dersim blinked.
+                </p>
+
+                <p class="dialogue">
+                    “Magic.”
+                </p>
+
+                <p>
+                    Andrey looked at him.
+                </p>
+
+                <p class="dialogue">
+                    “I've seen it before.”
+                </p>
+                `
+            },
+
+
+            {
+                title: "The Choice",
+
+                text: `
+                <p>
+                    Andrey warned that magic could be dangerous.
+                </p>
+
+                <p>
+                    They shouldn't tell everyone.
+                    Nobody would believe them.
+                </p>
+
+                <p>
+                    Spiros looked towards the field.
+                </p>
+
+                <p class="dialogue">
+                    “So what do we do?”
+                </p>
+
+                <p>
+                    Andrey answered immediately.
+                </p>
+
+                <p class="dialogue dramatic">
+                    “Win.”
+                </p>
+                `
+            },
+
+
+            {
+                title: "Class",
+
+                text: `
+                <p>
+                    Andrey looked across the field.
+                </p>
+
+                <p>
+                    The school was losing Sports Day because everyone
+                    was acting like separate groups.
+                </p>
+
+                <p class="dialogue">
+                    Oliver frowned.
+                    “What do you mean?”
+                </p>
+
+                <p class="dialogue">
+                    “Class.”
+                </p>
+
+                <p>
+                    Andrey pointed out the athletes versus academics.
+                    Sixth formers versus younger students.
+                    Charlie thinking money solved most problems.
+                    Ben Negus thinking arguments solved everything.
+                    Dersim and Sam acting like nothing mattered.
+                </p>
+
+                <p>
+                    The twins smiled.
+                </p>
+
+                <p>
+                    Simeon looked ready to fight.
+                </p>
+                `
+            },
+
+
+            {
+                title: "Together",
+
+                text: `
+                <p>
+                    Andrey watched the other schools gathering points.
+                </p>
+
+                <p class="dialogue">
+                    “If we keep competing against each other,
+                    the other schools win.”
+                </p>
+
+                <p>
+                    He looked across the field.
+                </p>
+
+                <p>
+                    Then he clapped once.
+                </p>
+
+                <p class="dialogue dramatic">
+                    “Everyone. Together.”
+                </p>
+
+                <p>
+                    The entire school turned towards him.
+                </p>
+                `
+            }
+
+        ]
+
+    }
+
+};
+
+
+/* =========================================================
+   BOOK ENGINE
+   ========================================================= */
+
+let currentPart = 1;
+let currentPage = 0;
+
+const book = document.getElementById("book");
+const counter = document.getElementById("counter");
+
+const previousButton =
+    document.getElementById("previous");
+
+const nextButton =
+    document.getElementById("next");
+
+
+function renderPage() {
+
+    const currentStory = story[currentPart];
+
+    const page = currentStory.pages[currentPage];
+
+    book.innerHTML = "";
+
+    const article = document.createElement("article");
+
+    article.className = "page active";
+
+    article.innerHTML = `
+
+        <div class="page-number">
+            ${currentStory.title}
+            •
+            Page ${currentPage + 1}
+        </div>
+
+        <h2>
+            ${page.title}
+        </h2>
+
+        <div class="story">
+            ${page.text}
+        </div>
+
+    `;
+
+    book.appendChild(article);
+
+
+    counter.textContent =
+        `${currentPage + 1} / ${currentStory.pages.length}`;
+
+
+    previousButton.disabled =
+        currentPage === 0;
+
+    nextButton.disabled =
+        currentPage === currentStory.pages.length - 1;
+
+
+    document
+        .querySelectorAll(".part-button")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                Number(button.dataset.part) === currentPart
+            );
+
+        });
+}
+
+
+/* =========================================================
+   NEXT / PREVIOUS
+   ========================================================= */
+
+previousButton.addEventListener(
+    "click",
+    () => {
+
+        if (currentPage > 0) {
+
+            currentPage--;
+
+            renderPage();
+
+        }
+
+    }
+);
+
+
+nextButton.addEventListener(
+    "click",
+    () => {
+
+        if (
+            currentPage <
+            story[currentPart].pages.length - 1
+        ) {
+
+            currentPage++;
+
+            renderPage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PART BUTTONS
+   ========================================================= */
+
+document
+    .querySelectorAll(".part-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                currentPart =
+                    Number(button.dataset.part);
+
+                currentPage = 0;
+
+                renderPage();
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   KEYBOARD CONTROLS
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "ArrowLeft") {
+
+            previousButton.click();
+
+        }
+
+        if (event.key === "ArrowRight") {
+
+            nextButton.click();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   MOBILE SWIPE
+   ========================================================= */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+
+book.addEventListener(
+    "touchstart",
+    event => {
+
+        touchStartX =
+            event.changedTouches[0].screenX;
+
+    },
+    { passive: true }
+);
+
+
+book.addEventListener(
+    "touchend",
+    event => {
+
+        touchEndX =
+            event.changedTouches[0].screenX;
+
+        const difference =
+            touchEndX - touchStartX;
+
+        if (Math.abs(difference) < 50) {
+            return;
+        }
+
+        if (difference < 0) {
+
+            nextButton.click();
+
+        } else {
+
+            previousButton.click();
+
+        }
+
+    },
+    { passive: true }
+);
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+renderPage();
+
+</script>
+
+</body>
+</html>
