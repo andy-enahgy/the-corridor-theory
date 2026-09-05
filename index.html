@@ -1,980 +1,1374 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Corridor Theory</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
+<title>The Corridor Theory</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    body {
+        background:
+            radial-gradient(circle at center, #303030 0%, #151515 70%);
+        color: #222;
+        font-family: Georgia, "Times New Roman", serif;
+    }
+
+    /* =========================
+       TOP BAR
+       ========================= */
+
+    .top-bar {
+        height: 80px;
+        width: 100%;
+        background: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.5);
+    }
+
+    .top-bar button {
+        border: 1px solid #777;
+        background: #222;
+        color: #eee;
+        padding: 12px 28px;
+        border-radius: 6px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .top-bar button:hover {
+        background: #444;
+    }
+
+    .top-bar button.active {
+        background: #eee;
+        color: #111;
+        border-color: #eee;
+    }
+
+    /* =========================
+       BOOK AREA
+       ========================= */
+
+    .book-area {
+        height: calc(100vh - 145px);
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        display: flex;
+        align-items: center;
+
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+
+        padding: 25px 7vw;
+
+        scrollbar-width: thin;
+        scrollbar-color: #777 #222;
+    }
+
+    .book-area::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    .book-area::-webkit-scrollbar-track {
+        background: #222;
+    }
+
+    .book-area::-webkit-scrollbar-thumb {
+        background: #777;
+        border-radius: 10px;
+    }
+
+    /* =========================
+       INDIVIDUAL BOOK PAGE
+       ========================= */
+
+    .page {
+        flex: 0 0 min(78vw, 720px);
+        height: 100%;
+        max-height: 700px;
+
+        margin-right: 35px;
+
+        background:
+            linear-gradient(
+                90deg,
+                rgba(0,0,0,0.035),
+                transparent 7%,
+                transparent 93%,
+                rgba(0,0,0,0.035)
+            ),
+            #f4efdf;
+
+        border-radius: 2px;
+
+        box-shadow:
+            0 8px 30px rgba(0,0,0,0.45),
+            inset 0 0 35px rgba(100,80,40,0.08);
+
+        padding: 55px 65px;
+
+        position: relative;
+
+        scroll-snap-align: center;
+
+        overflow-y: auto;
+
+        line-height: 1.75;
+        font-size: 18px;
+    }
+
+    .page::before {
+        content: "";
+        position: absolute;
+        left: 28px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: rgba(100,80,40,0.12);
+    }
+
+    .page p {
+        margin-bottom: 22px;
+    }
+
+    /* Page number */
+
+    .page-number {
+        position: absolute;
+        bottom: 18px;
+        left: 0;
+        right: 0;
+        text-align: center;
+
+        font-size: 13px;
+        color: #777;
+        font-family: Georgia, "Times New Roman", serif;
+    }
+
+    /* =========================
+       BOTTOM CONTROLS
+       ========================= */
+
+    .bottom-bar {
+        height: 65px;
+        background: #111;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+
+        box-shadow: 0 -3px 15px rgba(0,0,0,0.45);
+
+        position: relative;
+        z-index: 10;
+    }
+
+    .bottom-bar button {
+        min-width: 125px;
+        padding: 11px 20px;
+
+        background: #222;
+        color: #eee;
+
+        border: 1px solid #777;
+        border-radius: 6px;
+
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 15px;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .bottom-bar button:hover {
+        background: #444;
+    }
+
+    .bottom-bar button:active {
+        transform: scale(0.96);
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 700px) {
+
+        .top-bar {
+            height: 65px;
+            gap: 8px;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            background: #0b0b0b;
-            color: #eeeeee;
-            font-family: Georgia, "Times New Roman", serif;
-        }
-
-        /* TOP MENU */
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(11, 11, 11, 0.96);
-            border-bottom: 1px solid #333;
-            padding: 14px 20px;
-            text-align: center;
-        }
-
-        .topbar h1 {
-            margin: 0 0 12px;
-            font-size: 24px;
-            letter-spacing: 2px;
-        }
-
-        .part-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .part-button {
-            background: #1b1b1b;
-            color: #ddd;
-            border: 1px solid #555;
-            border-radius: 6px;
+        .top-bar button {
             padding: 9px 20px;
-            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .book-area {
+            height: calc(100vh - 125px);
+            padding: 15px 6vw;
+        }
+
+        .page {
+            flex: 0 0 88vw;
+
+            height: 100%;
+
+            padding: 40px 30px 55px 38px;
+
+            font-size: 16px;
+            line-height: 1.65;
+
+            margin-right: 20px;
+        }
+
+        .page::before {
+            left: 17px;
+        }
+
+        .page p {
+            margin-bottom: 18px;
+        }
+
+        .bottom-bar {
+            height: 60px;
+            gap: 10px;
+        }
+
+        .bottom-bar button {
+            min-width: 105px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+    }
+
+    /* =========================
+       SMALL PHONES
+       ========================= */
+
+    @media (max-width: 400px) {
+
+        .page {
+            padding-left: 30px;
+            padding-right: 25px;
             font-size: 15px;
-            cursor: pointer;
         }
 
-        .part-button:hover {
-            background: #292929;
+        .bottom-bar button {
+            min-width: 95px;
+            font-size: 13px;
         }
-
-        .part-button.active {
-            background: #eeeeee;
-            color: #111;
-            border-color: #eeeeee;
-        }
-
-        /* STORY */
-        .story-container {
-            width: 100%;
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 55px 25px 100px;
-        }
-
-        .part {
-            display: none;
-        }
-
-        .part.active {
-            display: block;
-        }
-
-        .part-title {
-            text-align: center;
-            font-size: 32px;
-            margin: 0 0 45px;
-            letter-spacing: 1px;
-        }
-
-        .story p {
-            font-size: 18px;
-            line-height: 1.85;
-            margin: 0 0 22px;
-        }
-
-        .ending {
-            font-weight: bold;
-            margin-top: 35px !important;
-        }
-
-        /* MOBILE */
-        @media (max-width: 600px) {
-            .topbar {
-                padding: 12px 12px;
-            }
-
-            .topbar h1 {
-                font-size: 20px;
-            }
-
-            .part-button {
-                padding: 8px 15px;
-                font-size: 14px;
-            }
-
-            .story-container {
-                padding: 35px 18px 80px;
-            }
-
-            .part-title {
-                font-size: 27px;
-                margin-bottom: 35px;
-            }
-
-            .story p {
-                font-size: 17px;
-                line-height: 1.75;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 
 <body>
 
-    <header class="topbar">
-        <h1>The Corridor Theory</h1>
+<!-- =========================
+     PART SELECTOR
+     ========================= -->
 
-        <div class="part-buttons">
-            <button class="part-button active" onclick="showPart(1)">
-                Part 1
-            </button>
+<div class="top-bar">
+    <button id="part1Button" class="active" onclick="showPart(1)">
+        Part 1
+    </button>
 
-            <button class="part-button" onclick="showPart(2)">
-                Part 2
-            </button>
-        </div>
-    </header>
+    <button id="part2Button" onclick="showPart(2)">
+        Part 2
+    </button>
+</div>
 
 
-    <main class="story-container">
+<!-- =========================
+     PART 1
+     ========================= -->
 
-        <!-- ========================= -->
-        <!-- PART 1 -->
-        <!-- ========================= -->
+<div id="part1" class="book-area">
 
-        <section id="part1" class="part active">
+    <div class="page">
+        <p>The bell rang at 10:17.</p>
 
-            <h2 class="part-title">Part 1</h2>
+        <p>For everyone else, it meant the beginning of break. For Andrey, it meant the beginning of the war.</p>
 
-            <div class="story">
+        <p>The corridor outside the sixth-form common room erupted instantly. Doors slammed. Shoes squeaked against the polished floor. Someone shouted that they had lost their calculator. Someone else shouted that they had found it. A Year 10 sprinted around the corner at a speed that suggested either extreme urgency or the discovery of a fire.</p>
 
-                <p>The bell rang at 10:17.</p>
+        <p>Andrey stood against the wall, watching it all. He had a notebook tucked underneath one arm, but it hadn't been opened all morning.</p>
 
-                <p>For everyone else, it meant the beginning of break. For Andrey, it meant the beginning of the war.</p>
+        <p>Oliver noticed.</p>
 
-                <p>The corridor outside the sixth-form common room erupted instantly. Doors slammed. Shoes squeaked against the polished floor. Someone shouted that they had lost their calculator. Someone else shouted that they had found it. A Year 10 sprinted around the corner at a speed that suggested either extreme urgency or the discovery of a fire.</p>
+        <p>“You haven't revised.”</p>
 
-                <p>Andrey stood against the wall, watching it all. He had a notebook tucked underneath one arm, but it hadn't been opened all morning.</p>
+        <p>Andrey looked at him. “No.”</p>
 
-                <p>Oliver noticed.</p>
+        <p>“You've got the test tomorrow.”</p>
 
-                <p>“You haven't revised.”</p>
+        <p>“I know.”</p>
 
-                <p>Andrey looked at him. “No.”</p>
+        <p>“You haven't revised for it.”</p>
 
-                <p>“You've got the test tomorrow.”</p>
+        <p>“I know.”</p>
 
-                <p>“I know.”</p>
+        <p>Oliver stared at him with the quiet horror of someone watching another person deliberately walk into traffic.</p>
 
-                <p>“You haven't revised for it.”</p>
+        <p>“And you're not worried?”</p>
 
-                <p>“I know.”</p>
+        <p>“About what?”</p>
 
-                <p>Oliver stared at him with the quiet horror of someone watching another person deliberately walk into traffic.</p>
+        <p>“The test.”</p>
 
-                <p>“And you're not worried?”</p>
+        <p>“No.”</p>
 
-                <p>“About what?”</p>
+        <div class="page-number">1</div>
+    </div>
 
-                <p>“The test.”</p>
 
-                <p>“No.”</p>
+    <div class="page">
 
-                <p>Oliver adjusted his glasses. It was irritating. Not because Andrey was lazy. Oliver could tolerate laziness. Not because Andrey was arrogant. Oliver had met arrogant people before.</p>
+        <p>Oliver adjusted his glasses. It was irritating. Not because Andrey was lazy. Oliver could tolerate laziness. Not because Andrey was arrogant. Oliver had met arrogant people before.</p>
 
-                <p>It was the fact that Andrey could be right.</p>
+        <p>It was the fact that Andrey could be right.</p>
 
-                <p>That was the problem.</p>
+        <p>That was the problem.</p>
 
-                <p>Oliver had spent years treating school like a mountain. He climbed every evening. He memorised every specification point, every obscure exception, every mark-scheme phrase that might squeeze an extra two marks from an examiner.</p>
+        <p>Oliver had spent years treating school like a mountain. He climbed every evening. He memorised every specification point, every obscure exception, every mark-scheme phrase that might squeeze an extra two marks from an examiner.</p>
 
-                <p>Andrey looked at the mountain and wondered why everyone was climbing it.</p>
+        <p>Andrey looked at the mountain and wondered why everyone was climbing it.</p>
 
-                <p>“School isn't pointless,” Oliver said.</p>
+        <p>“School isn't pointless,” Oliver said.</p>
 
-                <p>“I didn't say school was pointless.”</p>
+        <p>“I didn't say school was pointless.”</p>
 
-                <p>“You said the system was imaginary.”</p>
+        <p>“You said the system was imaginary.”</p>
 
-                <p>“It is.”</p>
+        <p>“It is.”</p>
 
-                <p>“That's literally not an argument.”</p>
+        <p>“That's literally not an argument.”</p>
 
-                <p>“It wasn't meant to be.”</p>
+        <p>“It wasn't meant to be.”</p>
 
-                <p>Oliver opened his mouth.</p>
+        <p>Oliver opened his mouth.</p>
 
-                <p>Then closed it.</p>
+        <p>Then closed it.</p>
 
-                <p>Andrey walked away.</p>
+        <p>Andrey walked away.</p>
 
-                <p>Across the corridor, Ben Negus had begun explaining why Andrey was wrong. Nobody had asked.</p>
+        <div class="page-number">2</div>
+    </div>
 
-                <p>That had never stopped him.</p>
 
-                <p>“According to authority,” Ben said, raising one finger, “the education system exists for a reason. Therefore, saying it's imaginary is objectively—”</p>
+    <div class="page">
 
-                <p>“Appeal to authority,” Andrey called without turning around.</p>
+        <p>Across the corridor, Ben Negus had begun explaining why Andrey was wrong. Nobody had asked.</p>
 
-                <p>Ben froze.</p>
+        <p>That had never stopped him.</p>
 
-                <p>“What?”</p>
+        <p>“According to authority,” Ben said, raising one finger, “the education system exists for a reason. Therefore, saying it's imaginary is objectively—”</p>
 
-                <p>“You said an authority believes something, therefore it's true.”</p>
+        <p>“Appeal to authority,” Andrey called without turning around.</p>
 
-                <p>“I didn't.”</p>
+        <p>Ben froze.</p>
 
-                <p>“You did.”</p>
+        <p>“What?”</p>
 
-                <p>“I was explaining—”</p>
+        <p>“You said an authority believes something, therefore it's true.”</p>
 
-                <p>“Appeal to authority.”</p>
+        <p>“I didn't.”</p>
 
-                <p>Ben frowned. “That doesn't make me wrong.”</p>
+        <p>“You did.”</p>
 
-                <p>“No,” Andrey said. “Your argument makes you wrong.”</p>
+        <p>“I was explaining—”</p>
 
-                <p>Sam, passing behind them, whispered to Dersim, “He's cooked.”</p>
+        <p>“Appeal to authority.”</p>
 
-                <p>Dersim nodded solemnly. “I have no idea what's happening.”</p>
+        <p>Ben frowned. “That doesn't make me wrong.”</p>
 
-                <p>They continued walking.</p>
+        <p>“No,” Andrey said. “Your argument makes you wrong.”</p>
 
-                <p>Three seconds later, a loud crash came from around the corner.</p>
+        <p>Sam, passing behind them, whispered to Dersim, “He's cooked.”</p>
 
-                <p>Andrey sighed.</p>
+        <p>Dersim nodded solemnly. “I have no idea what's happening.”</p>
 
-                <p>“That's probably them.”</p>
+        <p>They continued walking.</p>
 
-                <p>It was.</p>
+        <p>Three seconds later, a loud crash came from around the corner.</p>
 
-                <p>A bin lay on its side. Dersim stood beside it. Sam stood beside Dersim. Neither of them appeared particularly concerned.</p>
+        <p>Andrey sighed.</p>
 
-                <p>“We didn't do anything,” Sam said.</p>
+        <p>“That's probably them.”</p>
 
-                <p>“You're standing next to an overturned bin.”</p>
+        <div class="page-number">3</div>
+    </div>
 
-                <p>“Correlation isn't causation.”</p>
 
-                <p>Andrey looked at him.</p>
+    <div class="page">
 
-                <p>For the first time that morning, he seemed impressed.</p>
+        <p>It was.</p>
 
-                <p>“Okay.”</p>
+        <p>A bin lay on its side. Dersim stood beside it. Sam stood beside Dersim. Neither of them appeared particularly concerned.</p>
 
-                <p>Sam grinned. “Was that good?”</p>
+        <p>“We didn't do anything,” Sam said.</p>
 
-                <p>“No.”</p>
+        <p>“You're standing next to an overturned bin.”</p>
 
-                <p>“Oh.”</p>
+        <p>“Correlation isn't causation.”</p>
 
-                <p>Further down the corridor, Charlie arrived.</p>
+        <p>Andrey looked at him.</p>
 
-                <p>The noise seemed to change around him.</p>
+        <p>For the first time that morning, he seemed impressed.</p>
 
-                <p>Not because people respected him. Quite the opposite.</p>
+        <p>“Okay.”</p>
 
-                <p>Charlie was rich, and everyone knew it. He had the particular confidence of someone who had never needed to check the price before ordering something.</p>
+        <p>Sam grinned. “Was that good?”</p>
 
-                <p>Beside him walked Ben Tuson.</p>
+        <p>“No.”</p>
 
-                <p>Tuson laughed at something Charlie said.</p>
+        <p>“Oh.”</p>
 
-                <p>Nobody else did.</p>
+        <p>Further down the corridor, Charlie arrived.</p>
 
-                <p>Charlie pulled out his phone.</p>
+        <p>The noise seemed to change around him.</p>
 
-                <p>“Look at this.”</p>
+        <p>Not because people respected him. Quite the opposite.</p>
 
-                <p>Tuson's attention immediately shifted.</p>
+        <p>Charlie was rich, and everyone knew it. He had the particular confidence of someone who had never needed to check the price before ordering something.</p>
 
-                <p>“Is that the new one?”</p>
+        <p>Beside him walked Ben Tuson.</p>
 
-                <p>“Yeah.”</p>
+        <p>Tuson laughed at something Charlie said.</p>
 
-                <p>“Mad.”</p>
+        <p>Nobody else did.</p>
 
-                <p>Charlie smiled. “Limited edition.”</p>
+        <p>Charlie pulled out his phone.</p>
 
-                <p>Tuson's enthusiasm increased accordingly.</p>
+        <p>“Look at this.”</p>
 
-                <p>It was subtle. Almost invisible.</p>
+        <p>Tuson's attention immediately shifted.</p>
 
-                <p>Almost.</p>
+        <p>“Is that the new one?”</p>
 
-                <p>From the end of the corridor, Violet Turner watched them.</p>
+        <p>“Yeah.”</p>
 
-                <p>Isla stood beside her.</p>
+        <p>“Mad.”</p>
 
-                <p>The twins were universally considered sweet. Polite. Helpful. The kind of people teachers trusted instinctively.</p>
+        <p>Charlie smiled. “Limited edition.”</p>
 
-                <p>They smiled when spoken to. They held doors open. They remembered people's birthdays.</p>
+        <p>Tuson's enthusiasm increased accordingly.</p>
 
-                <p>And nobody noticed the way Violet's eyes followed the corridor.</p>
+        <p>It was subtle. Almost invisible.</p>
 
-                <p>Nobody noticed the calculation behind Isla's smile.</p>
+        <p>Almost.</p>
 
-                <p>Nobody noticed that they had already worked out which students could be manipulated, which teachers could be persuaded, and which secrets would be most valuable.</p>
+        <div class="page-number">4</div>
+    </div>
 
-                <p>Nobody except, perhaps, Simeon.</p>
 
-                <p>He stood at the lockers, arms folded.</p>
+    <div class="page">
 
-                <p>Simeon was aggressive in the way thunderstorms were aggressive: nobody questioned whether something was going to happen.</p>
+        <p>From the end of the corridor, Violet Turner watched them.</p>
 
-                <p>The only question was when.</p>
+        <p>Isla stood beside her.</p>
 
-                <p>His eyes moved from the twins to Charlie.</p>
+        <p>The twins were universally considered sweet. Polite. Helpful. The kind of people teachers trusted instinctively.</p>
 
-                <p>Then to Tuson.</p>
+        <p>They smiled when spoken to. They held doors open. They remembered people's birthdays.</p>
 
-                <p>Then to Andrey.</p>
+        <p>And nobody noticed the way Violet's eyes followed the corridor.</p>
 
-                <p>Something wasn't right.</p>
+        <p>Nobody noticed the calculation behind Isla's smile.</p>
 
-                <p>He just didn't know what.</p>
+        <p>Nobody noticed that they had already worked out which students could be manipulated, which teachers could be persuaded, and which secrets would be most valuable.</p>
 
-                <p>Yet.</p>
+        <p>Nobody except, perhaps, Simeon.</p>
 
-                <p>“Move.”</p>
+        <p>He stood at the lockers, arms folded.</p>
 
-                <p>The voice came from behind him.</p>
+        <p>Simeon was aggressive in the way thunderstorms were aggressive: nobody questioned whether something was going to happen.</p>
 
-                <p>Simeon turned.</p>
+        <p>The only question was when.</p>
 
-                <p>Samuel.</p>
+        <p>His eyes moved from the twins to Charlie.</p>
 
-                <p>For half a second, the corridor became quieter.</p>
+        <p>Then to Tuson.</p>
 
-                <p>Not silent.</p>
+        <p>Then to Andrey.</p>
 
-                <p>Just quieter.</p>
+        <p>Something wasn't right.</p>
 
-                <p>There was history between them.</p>
+        <p>He just didn't know what.</p>
 
-                <p>A fight once.</p>
+        <p>Yet.</p>
 
-                <p>Neither had won.</p>
+        <div class="page-number">5</div>
+    </div>
 
-                <p>Neither had forgotten.</p>
 
-                <p>Samuel looked at him.</p>
+    <div class="page">
 
-                <p>Simeon looked back.</p>
+        <p>“Move.”</p>
 
-                <p>Then Aaron appeared between them.</p>
+        <p>The voice came from behind him.</p>
 
-                <p>Nobody knew exactly how Aaron had arrived. One moment he wasn't there. The next he stood calmly between the two boys, hands folded behind his back.</p>
+        <p>Simeon turned.</p>
 
-                <p>Aaron was a Chinese monk.</p>
+        <p>Samuel.</p>
 
-                <p>At least, that was what everyone called him. Nobody knew how seriously he took it.</p>
+        <p>For half a second, the corridor became quieter.</p>
 
-                <p>He looked at Simeon.</p>
+        <p>Not silent.</p>
 
-                <p>Then Samuel.</p>
+        <p>Just quieter.</p>
 
-                <p>Then the overturned bin.</p>
+        <p>There was history between them.</p>
 
-                <p>“Conflict,” Aaron said calmly, “is usually caused by attachment.”</p>
+        <p>A fight once.</p>
 
-                <p>Sam nodded.</p>
+        <p>Neither had won.</p>
 
-                <p>“Yeah.”</p>
+        <p>Neither had forgotten.</p>
 
-                <p>Dersim nodded too.</p>
+        <p>Samuel looked at him.</p>
 
-                <p>“Definitely.”</p>
+        <p>Simeon looked back.</p>
 
-                <p>Andrey glanced at them.</p>
+        <p>Then Aaron appeared between them.</p>
 
-                <p>“You don't know what he means.”</p>
+        <p>Nobody knew exactly how Aaron had arrived. One moment he wasn't there. The next he stood calmly between the two boys, hands folded behind his back.</p>
 
-                <p>“No,” said Sam.</p>
+        <p>Aaron was a Chinese monk.</p>
 
-                <p>“But it sounded wise.”</p>
+        <p>At least, that was what everyone called him. Nobody knew how seriously he took it.</p>
 
-                <p>“It did.”</p>
+        <p>He looked at Simeon.</p>
 
-                <p>Aaron walked away.</p>
+        <p>Then Samuel.</p>
 
-                <p>Simeon watched him go.</p>
+        <p>Then the overturned bin.</p>
 
-                <p>Then he looked back at Samuel.</p>
+        <p>“Conflict,” Aaron said calmly, “is usually caused by attachment.”</p>
 
-                <p>“Later.”</p>
+        <p>Sam nodded.</p>
 
-                <p>Samuel nodded.</p>
+        <p>“Yeah.”</p>
 
-                <p>“Later.”</p>
+        <p>Dersim nodded too.</p>
 
-                <p>The bell rang again.</p>
+        <p>“Definitely.”</p>
 
-                <p>Everyone began moving.</p>
+        <p>Andrey glanced at them.</p>
 
-                <p>Except the Turner twins.</p>
+        <p>“You don't know what he means.”</p>
 
-                <p>Isla waited until the corridor emptied.</p>
+        <p>“No,” said Sam.</p>
 
-                <p>Violet leaned towards her.</p>
+        <p>“But it sounded wise.”</p>
 
-                <p>“Did you hear?”</p>
+        <p>“It did.”</p>
 
-                <p>“Hear what?”</p>
+        <p>Aaron walked away.</p>
 
-                <p>“About the exam.”</p>
+        <div class="page-number">6</div>
+    </div>
 
-                <p>Isla smiled.</p>
 
-                <p>“No.”</p>
+    <div class="page">
 
-                <p>“You're lying.”</p>
+        <p>Simeon watched him go.</p>
 
-                <p>“So are you.”</p>
+        <p>Then he looked back at Samuel.</p>
 
-                <p>They looked at each other.</p>
+        <p>“Later.”</p>
 
-                <p>Then both laughed.</p>
+        <p>Samuel nodded.</p>
 
-                <p>Quietly.</p>
+        <p>“Later.”</p>
 
-                <p>At the other end of the corridor, Andrey stopped.</p>
+        <p>The bell rang again.</p>
 
-                <p>He had heard them.</p>
+        <p>Everyone began moving.</p>
 
-                <p>Not enough to understand.</p>
+        <p>Except the Turner twins.</p>
 
-                <p>Enough to remember.</p>
+        <p>Isla waited until the corridor emptied.</p>
 
-                <p>He turned.</p>
+        <p>Violet leaned towards her.</p>
 
-                <p>The twins were already walking away.</p>
+        <p>“Did you hear?”</p>
 
-                <p>For perhaps the first time all day, Andrey wasn't thinking about school being pointless.</p>
+        <p>“Hear what?”</p>
 
-                <p>He was thinking about a question.</p>
+        <p>“About the exam.”</p>
 
-                <p class="ending">Why would two people who had nothing to gain from lying...</p>
+        <p>Isla smiled.</p>
 
-                <p class="ending">lie?</p>
+        <p>“No.”</p>
 
-            </div>
-        </section>
+        <p>“You're lying.”</p>
 
+        <p>“So are you.”</p>
 
-        <!-- ========================= -->
-        <!-- PART 2 -->
-        <!-- ========================= -->
+        <p>They looked at each other.</p>
 
-        <section id="part2" class="part">
+        <p>Then both laughed.</p>
 
-            <h2 class="part-title">Part 2</h2>
+        <p>Quietly.</p>
 
-            <div class="story">
+        <div class="page-number">7</div>
+    </div>
 
-                <p>Spiros hated mornings.</p>
 
-                <p>Not because he was tired. He was rarely tired.</p>
+    <div class="page">
 
-                <p>He hated them because mornings at school were predictable.</p>
+        <p>At the other end of the corridor, Andrey stopped.</p>
 
-                <p>The same corridors. The same bells. The same teachers pretending they weren't already exhausted. The same students walking around as if they had somewhere important to be.</p>
+        <p>He had heard them.</p>
 
-                <p>Then there was the other problem.</p>
+        <p>Not enough to understand.</p>
 
-                <p>Everyone seemed to like Spiros.</p>
+        <p>Enough to remember.</p>
 
-                <p>He couldn't walk through the sixth-form corridor without somebody saying his name. Girls whispered when he passed. Someone had once asked for his Instagram while he was literally standing in front of a teacher. Another had mysteriously developed an interest in Greek history after learning where he was from.</p>
+        <p>He turned.</p>
 
-                <p>Spiros found the whole thing slightly ridiculous.</p>
+        <p>The twins were already walking away.</p>
 
-                <p>He was Greek. He was confident. He knew he was considered attractive. None of that particularly interested him.</p>
+        <p>For perhaps the first time all day, Andrey wasn't thinking about school being pointless.</p>
 
-                <p>Because there was one person he actually liked.</p>
+        <p>He was thinking about a question.</p>
 
-                <p>And nobody knew who.</p>
+        <p>Why would two people who had nothing to gain from lying...</p>
 
-                <p>Nobody except, perhaps, Harrison.</p>
+        <p>lie?</p>
 
-                <p>And maybe Andrey.</p>
+        <div class="page-number">8</div>
+    </div>
 
-                <p>Spiros wasn't sure about Andrey.</p>
+</div>
 
-                <p>That was the problem with Andrey. He didn't seem to <em>notice</em> things in the normal way. He simply observed them, stored them somewhere in his mind, and occasionally produced a conclusion that made everyone else wonder how he'd got there.</p>
 
-                <p>Spiros suspected Andrey had figured it out.</p>
+<!-- =========================
+     PART 2
+     ========================= -->
 
-                <p>He hoped he hadn't.</p>
+<div id="part2" class="book-area" style="display:none;">
 
-                <p>The school gates opened at eight.</p>
+    <div class="page">
 
-                <p>By eight-thirty, the entire school was already talking about Sports Day.</p>
+        <p>Spiros hated mornings.</p>
 
-                <p>It wasn't an ordinary Sports Day.</p>
+        <p>Not because he was tired. He was rarely tired.</p>
 
-                <p>Six schools were competing, and the trophy had become something of a legend. The previous year, their school had lost by three points.</p>
+        <p>He hated them because mornings at school were predictable.</p>
 
-                <p>Three.</p>
+        <p>The same corridors. The same bells. The same teachers pretending they weren't already exhausted. The same students walking around as if they had somewhere important to be.</p>
 
-                <p>Nobody had forgotten.</p>
+        <p>Then there was the other problem.</p>
 
-                <p>The PE department had spent weeks preparing.</p>
+        <p>Everyone seemed to like Spiros.</p>
 
-                <p>The students had spent approximately twelve minutes preparing.</p>
+        <p>He couldn't walk through the sixth-form corridor without somebody saying his name. Girls whispered when he passed. Someone had once asked for his Instagram while he was literally standing in front of a teacher. Another had mysteriously developed an interest in Greek history after learning where he was from.</p>
 
-                <p>Spiros walked onto the athletics field and immediately realised there was a problem.</p>
+        <p>Spiros found the whole thing slightly ridiculous.</p>
 
-                <p>The school had been divided into factions.</p>
+        <p>He was Greek. He was confident. He knew he was considered attractive. None of that particularly interested him.</p>
 
-                <p>The serious athletes had formed one group near the track. The academic students were gathered near the seating area. The sixth formers had taken over one corner of the field. Everyone else seemed to be arguing over who was supposed to be competing in what.</p>
+        <p>Because there was one person he actually liked.</p>
 
-                <p>Oliver was standing with a clipboard.</p>
+        <p>And nobody knew who.</p>
 
-                <p>Of course he was.</p>
+        <p>Nobody except, perhaps, Harrison.</p>
 
-                <p>“Everyone needs to report to their events in the next five minutes,” he announced.</p>
+        <p>And maybe Andrey.</p>
 
-                <p>Nobody listened.</p>
+        <p>Spiros wasn't sure about Andrey.</p>
 
-                <p>Andrey was sitting on the grass.</p>
+        <p>That was the problem with Andrey. He didn't seem to <em>notice</em> things in the normal way. He simply observed them, stored them somewhere in his mind, and occasionally produced a conclusion that made everyone else wonder how he'd got there.</p>
 
-                <p>Of course he was.</p>
+        <p>Spiros suspected Andrey had figured it out.</p>
 
-                <p>“You're competing today,” Spiros said as he approached.</p>
+        <p>He hoped he hadn't.</p>
 
-                <p>Andrey looked up.</p>
+        <div class="page-number">1</div>
+    </div>
 
-                <p>“Apparently.”</p>
 
-                <p>“You look excited.”</p>
+    <div class="page">
 
-                <p>“I'd rather be sleeping.”</p>
+        <p>The school gates opened at eight.</p>
 
-                <p>Spiros laughed.</p>
+        <p>By eight-thirty, the entire school was already talking about Sports Day.</p>
 
-                <p>Oliver appeared behind them.</p>
+        <p>It wasn't an ordinary Sports Day.</p>
 
-                <p>“You can't just sit there.”</p>
+        <p>Six schools were competing, and the trophy had become something of a legend. The previous year, their school had lost by three points.</p>
 
-                <p>“I'm not stopping anyone.”</p>
+        <p>Three.</p>
 
-                <p>“You're meant to be warming up.”</p>
+        <p>Nobody had forgotten.</p>
 
-                <p>“I'll warm up when necessary.”</p>
+        <p>The PE department had spent weeks preparing.</p>
 
-                <p>Oliver stared at him.</p>
+        <p>The students had spent approximately twelve minutes preparing.</p>
 
-                <p>Spiros could practically see the argument forming.</p>
+        <p>Spiros walked onto the athletics field and immediately realised there was a problem.</p>
 
-                <p>Then a whistle blew.</p>
+        <p>The school had been divided into factions.</p>
 
-                <p>Everyone moved.</p>
+        <p>The serious athletes had formed one group near the track. The academic students were gathered near the seating area. The sixth formers had taken over one corner of the field. Everyone else seemed to be arguing over who was supposed to be competing in what.</p>
 
-                <p>For about thirty seconds.</p>
+        <p>Oliver was standing with a clipboard.</p>
 
-                <p>Then everything went wrong.</p>
+        <p>Of course he was.</p>
 
-                <p>Dersim had somehow wandered into the wrong event.</p>
+        <p>“Everyone needs to report to their events in the next five minutes,” he announced.</p>
 
-                <p>Sam was arguing with a teacher.</p>
+        <p>Nobody listened.</p>
 
-                <p>Simeon was loudly insisting that his race should have been earlier.</p>
+        <p>Andrey was sitting on the grass.</p>
 
-                <p>Charlie was attempting to convince someone that his school had better equipment.</p>
+        <p>Of course he was.</p>
 
-                <p>Tuson was agreeing with him.</p>
+        <p>“You're competing today,” Spiros said as he approached.</p>
 
-                <p>Ben Negus was explaining why everyone else was approaching the competition incorrectly.</p>
+        <p>Andrey looked up.</p>
 
-                <p>The Turner twins stood together near the track.</p>
+        <p>“Apparently.”</p>
 
-                <p>Smiling.</p>
+        <p>“You look excited.”</p>
 
-                <p>Watching.</p>
+        <p>“I'd rather be sleeping.”</p>
 
-                <p>Spiros noticed something strange.</p>
+        <p>Spiros laughed.</p>
 
-                <p>They weren't watching the races.</p>
+        <p>Oliver appeared behind them.</p>
 
-                <p>They were watching the other students.</p>
+        <p>“You can't just sit there.”</p>
 
-                <p>Then Dersim ran towards Andrey.</p>
+        <p>“I'm not stopping anyone.”</p>
 
-                <p>“ANDREY.”</p>
+        <p>“You're meant to be warming up.”</p>
 
-                <p>Andrey looked up.</p>
+        <p>“I'll warm up when necessary.”</p>
 
-                <p>“What?”</p>
+        <p>Oliver stared at him.</p>
 
-                <p>“I've discovered something.”</p>
+        <p>Spiros could practically see the argument forming.</p>
 
-                <p>Andrey sighed.</p>
+        <p>Then a whistle blew.</p>
 
-                <p>“That's never a good sentence.”</p>
+        <p>Everyone moved.</p>
 
-                <p>“There's magic.”</p>
+        <div class="page-number">2</div>
+    </div>
 
-                <p>Silence.</p>
 
-                <p>Spiros looked at Sam.</p>
+    <div class="page">
 
-                <p>Sam looked at Dersim.</p>
+        <p>For about thirty seconds.</p>
 
-                <p>Oliver lowered his clipboard.</p>
+        <p>Then everything went wrong.</p>
 
-                <p>Andrey simply stared at him.</p>
+        <p>Dersim had somehow wandered into the wrong event.</p>
 
-                <p>Dersim pointed towards the track.</p>
+        <p>Sam was arguing with a teacher.</p>
 
-                <p>“I saw it.”</p>
+        <p>Simeon was loudly insisting that his race should have been earlier.</p>
 
-                <p>“Saw what?”</p>
+        <p>Charlie was attempting to convince someone that his school had better equipment.</p>
 
-                <p>“Magic.”</p>
+        <p>Tuson was agreeing with him.</p>
 
-                <p>Oliver laughed.</p>
+        <p>Ben Negus was explaining why everyone else was approaching the competition incorrectly.</p>
 
-                <p>“There's no such thing as magic.”</p>
+        <p>The Turner twins stood together near the track.</p>
 
-                <p>Dersim looked offended.</p>
+        <p>Smiling.</p>
 
-                <p>“You're just saying that because you're a neek.”</p>
+        <p>Watching.</p>
 
-                <p>Oliver's expression tightened.</p>
+        <p>Spiros noticed something strange.</p>
 
-                <p>Andrey stood up.</p>
+        <p>They weren't watching the races.</p>
 
-                <p>“Show me.”</p>
+        <p>They were watching the other students.</p>
 
-                <p>Dersim grabbed his arm.</p>
+        <p>Then Dersim ran towards Andrey.</p>
 
-                <p>“No, because you'll think I'm stupid.”</p>
+        <p>“ANDREY.”</p>
 
-                <p>“I already think you're stupid.”</p>
+        <p>Andrey looked up.</p>
 
-                <p>“Oh.”</p>
+        <p>“What?”</p>
 
-                <p>Dersim paused.</p>
+        <p>“I've discovered something.”</p>
 
-                <p>“Fair.”</p>
+        <p>Andrey sighed.</p>
 
-                <p>They walked towards the far side of the field.</p>
+        <p>“That's never a good sentence.”</p>
 
-                <p>Spiros followed.</p>
+        <p>“There's magic.”</p>
 
-                <p>He wasn't sure why.</p>
+        <p>Silence.</p>
 
-                <p>Maybe curiosity.</p>
+        <p>Spiros looked at Sam.</p>
 
-                <p>Maybe because something about Dersim's expression didn't look like his usual nonsense.</p>
+        <p>Sam looked at Dersim.</p>
 
-                <p>They reached the equipment shed.</p>
+        <p>Oliver lowered his clipboard.</p>
 
-                <p>Dersim pointed behind it.</p>
+        <p>Andrey simply stared at him.</p>
 
-                <p>“Look.”</p>
+        <p>Dersim pointed towards the track.</p>
 
-                <p>Nothing.</p>
+        <p>“I saw it.”</p>
 
-                <p>Just grass.</p>
+        <p>“Saw what?”</p>
 
-                <p>A fence.</p>
+        <p>“Magic.”</p>
 
-                <p>A discarded athletics cone.</p>
+        <p>Oliver laughed.</p>
 
-                <p>Andrey crouched down.</p>
+        <p>“There's no such thing as magic.”</p>
 
-                <p>“What exactly am I looking for?”</p>
+        <p>Dersim looked offended.</p>
 
-                <p>“I don't know.”</p>
+        <p>“You're just saying that because you're a neek.”</p>
 
-                <p>“Excellent.”</p>
+        <p>Oliver's expression tightened.</p>
 
-                <p>Dersim pointed again.</p>
+        <div class="page-number">3</div>
+    </div>
 
-                <p>“There.”</p>
 
-                <p>Spiros saw it.</p>
+    <div class="page">
 
-                <p>For less than a second, the air seemed to shimmer.</p>
+        <p>Andrey stood up.</p>
 
-                <p>Then it disappeared.</p>
+        <p>“Show me.”</p>
 
-                <p>Andrey's expression didn't change.</p>
+        <p>Dersim grabbed his arm.</p>
 
-                <p>Dersim stared at him.</p>
+        <p>“No, because you'll think I'm stupid.”</p>
 
-                <p>“You saw it.”</p>
+        <p>“I already think you're stupid.”</p>
 
-                <p>“Yes.”</p>
+        <p>“Oh.”</p>
 
-                <p>“You believe me?”</p>
+        <p>Dersim paused.</p>
 
-                <p>“No.”</p>
+        <p>“Fair.”</p>
 
-                <p>Dersim frowned.</p>
+        <p>They walked towards the far side of the field.</p>
 
-                <p>“But you saw it.”</p>
+        <p>Spiros followed.</p>
 
-                <p>“I said I saw something.”</p>
+        <p>He wasn't sure why.</p>
 
-                <p>“That's basically believing me.”</p>
+        <p>Maybe curiosity.</p>
 
-                <p>“No.”</p>
+        <p>Maybe because something about Dersim's expression didn't look like his usual nonsense.</p>
 
-                <p>Dersim looked at Oliver.</p>
+        <p>They reached the equipment shed.</p>
 
-                <p>“See? This is why I told Andrey. He's naturally smart.”</p>
+        <p>Dersim pointed behind it.</p>
 
-                <p>Oliver raised an eyebrow.</p>
+        <p>“Look.”</p>
 
-                <p>“And I'm not?”</p>
+        <p>Nothing.</p>
 
-                <p>“You revise.”</p>
+        <p>Just grass.</p>
 
-                <p>Oliver looked genuinely offended.</p>
+        <p>A fence.</p>
 
-                <p>Andrey ignored them.</p>
+        <p>A discarded athletics cone.</p>
 
-                <p>He was staring at the place where the shimmer had appeared.</p>
+        <p>Andrey crouched down.</p>
 
-                <p>Spiros stepped closer.</p>
+        <p>“What exactly am I looking for?”</p>
 
-                <p>“What was that?”</p>
+        <p>“I don't know.”</p>
 
-                <p>Andrey didn't answer.</p>
+        <p>“Excellent.”</p>
 
-                <p>Dersim whispered:</p>
+        <p>Dersim pointed again.</p>
 
-                <p>“Magic.”</p>
+        <p>“There.”</p>
 
-                <p>Andrey finally looked at him.</p>
+        <p>Spiros saw it.</p>
 
-                <p>“I know.”</p>
+        <p>For less than a second, the air seemed to shimmer.</p>
 
-                <p>Dersim's face went completely blank.</p>
+        <p>Then it disappeared.</p>
 
-                <p>“You…”</p>
+        <p>Andrey's expression didn't change.</p>
 
-                <p>“I know.”</p>
+        <p>Dersim stared at him.</p>
 
-                <p>“You knew about magic?”</p>
+        <p>“You saw it.”</p>
 
-                <p>“Yes.”</p>
+        <p>“Yes.”</p>
 
-                <p>“How?”</p>
+        <p>“You believe me?”</p>
 
-                <p>Andrey looked across the field.</p>
+        <p>“No.”</p>
 
-                <p>“Because I've seen it before.”</p>
+        <p>Dersim frowned.</p>
 
-                <p>Spiros felt the atmosphere change.</p>
+        <p>“But you saw it.”</p>
 
-                <p>The races continued in the distance.</p>
+        <p>“I said I saw something.”</p>
 
-                <p>Students shouted.</p>
+        <p>“That's basically believing me.”</p>
 
-                <p>Teachers blew whistles.</p>
+        <p>“No.”</p>
 
-                <p>Someone fell over a hurdle and immediately got back up pretending nothing had happened.</p>
+        <div class="page-number">4</div>
+    </div>
 
-                <p>But none of them were watching anymore.</p>
 
-                <p>Andrey was looking towards the school buildings.</p>
+    <div class="page">
 
-                <p>Specifically, towards the windows of the oldest block.</p>
+        <p>Dersim looked at Oliver.</p>
 
-                <p>Spiros followed his gaze.</p>
+        <p>“See? This is why I told Andrey. He's naturally smart.”</p>
 
-                <p>“What's in there?”</p>
+        <p>Oliver raised an eyebrow.</p>
 
-                <p>“I don't know yet.”</p>
+        <p>“And I'm not?”</p>
 
-                <p>Dersim swallowed.</p>
+        <p>“You revise.”</p>
 
-                <p>“So there really is magic?”</p>
+        <p>Oliver looked genuinely offended.</p>
 
-                <p>Andrey nodded.</p>
+        <p>Andrey ignored them.</p>
 
-                <p>“Yes.”</p>
+        <p>He was staring at the place where the shimmer had appeared.</p>
 
-                <p>“Is it dangerous?”</p>
+        <p>Spiros stepped closer.</p>
 
-                <p>“Probably.”</p>
+        <p>“What was that?”</p>
 
-                <p>Dersim considered this.</p>
+        <p>Andrey didn't answer.</p>
 
-                <p>“Should we tell someone?”</p>
+        <p>Dersim whispered:</p>
 
-                <p>“No.”</p>
+        <p>“Magic.”</p>
 
-                <p>“Why?”</p>
+        <p>Andrey finally looked at him.</p>
 
-                <p>“Because nobody would believe us.”</p>
+        <p>“I know.”</p>
 
-                <p>Spiros looked at him.</p>
+        <p>Dersim's face went completely blank.</p>
 
-                <p>“What are we supposed to do?”</p>
+        <p>“You…”</p>
 
-                <p>Andrey looked back towards the track.</p>
+        <p>“I know.”</p>
 
-                <p>“Win.”</p>
+        <p>“You knew about magic?”</p>
 
-                <p>Spiros frowned.</p>
+        <p>“Yes.”</p>
 
-                <p>“What?”</p>
+        <p>“How?”</p>
 
-                <p>“The Sports Day.”</p>
+        <p>Andrey looked across the field.</p>
 
-                <p>“That has nothing to do with this.”</p>
+        <p>“Because I've seen it before.”</p>
 
-                <p>“Maybe.”</p>
+        <p>Spiros felt the atmosphere change.</p>
 
-                <p>Andrey's eyes moved across the field.</p>
+        <p>The races continued in the distance.</p>
 
-                <p>The other schools were already dominating.</p>
+        <p>Students shouted.</p>
 
-                <p>Their best runners were losing.</p>
+        <p>Teachers blew whistles.</p>
 
-                <p>Their relay team was disorganised.</p>
+        <p>Someone fell over a hurdle and immediately got back up pretending nothing had happened.</p>
 
-                <p>Their high jumpers were arguing.</p>
+        <p>But none of them were watching anymore.</p>
 
-                <p>Their long jumpers weren't even in position.</p>
+        <p>Andrey was looking towards the school buildings.</p>
 
-                <p>And their students were too busy fighting amongst themselves to notice.</p>
+        <p>Specifically, towards the windows of the oldest block.</p>
 
-                <p>The trophy was slipping away.</p>
+        <div class="page-number">5</div>
+    </div>
 
-                <p>Andrey stood.</p>
 
-                <p>“We're losing.”</p>
+    <div class="page">
 
-                <p>Spiros nodded.</p>
+        <p>Spiros followed his gaze.</p>
 
-                <p>“So?”</p>
+        <p>“What's in there?”</p>
 
-                <p>“So everyone needs to stop acting like separate groups.”</p>
+        <p>“I don't know yet.”</p>
 
-                <p>Oliver approached.</p>
+        <p>Dersim swallowed.</p>
 
-                <p>“What are you talking about?”</p>
+        <p>“So there really is magic?”</p>
 
-                <p>Andrey looked at him.</p>
+        <p>Andrey nodded.</p>
 
-                <p>“Class.”</p>
+        <p>“Yes.”</p>
 
-                <p>Oliver frowned.</p>
+        <p>“Is it dangerous?”</p>
 
-                <p>“What about it?”</p>
+        <p>“Probably.”</p>
 
-                <p>“Everyone here thinks they're better than everyone else.”</p>
+        <p>Dersim considered this.</p>
 
-                <p>Spiros looked around.</p>
+        <p>“Should we tell someone?”</p>
 
-                <p>The athletes thought the academics were useless.</p>
+        <p>“No.”</p>
 
-                <p>The academics thought the athletes were unintelligent.</p>
+        <p>“Why?”</p>
 
-                <p>The sixth formers thought the younger students were annoying.</p>
+        <p>“Because nobody would believe us.”</p>
 
-                <p>The younger students thought the sixth formers were arrogant.</p>
+        <p>Spiros looked at him.</p>
 
-                <p>Charlie thought money solved most problems.</p>
+        <p>“What are we supposed to do?”</p>
 
-                <p>Ben Negus thought arguments could solve everything.</p>
+        <p>Andrey looked back towards the track.</p>
 
-                <p>Dersim and Sam seemed to think nothing mattered.</p>
+        <p>“Win.”</p>
 
-                <p>The Turner twins smiled as if none of it concerned them.</p>
+        <p>Spiros frowned.</p>
 
-                <p>And Simeon looked ready to fight somebody.</p>
+        <p>“What?”</p>
 
-                <p>Andrey spoke quietly.</p>
+        <p>“The Sports Day.”</p>
 
-                <p>“If we keep competing against each other, the other schools win.”</p>
+        <p>“That has nothing to do with this.”</p>
 
-                <p>Spiros looked at the scoreboard.</p>
+        <p>“Maybe.”</p>
 
-                <p>They were behind.</p>
+        <p>Andrey's eyes moved across the field.</p>
 
-                <p>Badly.</p>
+        <p>The other schools were already dominating.</p>
 
-                <p>Then the whistle blew.</p>
+        <p>Their best runners were losing.</p>
 
-                <p>Another event began.</p>
+        <p>Their relay team was disorganised.</p>
 
-                <p>And for the first time that day, everyone stopped talking.</p>
+        <p>Their high jumpers were arguing.</p>
 
-                <p>They watched.</p>
+        <p>Their long jumpers weren't even in position.</p>
 
-                <p>They realised the same thing.</p>
+        <p>And their students were too busy fighting amongst themselves to notice.</p>
 
-                <p>They were losing.</p>
+        <p>The trophy was slipping away.</p>
 
-                <p>And the strangest part was that, somewhere behind the athletics field, something impossible was moving through the air.</p>
+        <p>Andrey stood.</p>
 
-                <p>Magic was real.</p>
+        <p>“We're losing.”</p>
 
-                <p>The trophy was slipping away.</p>
+        <p>Spiros nodded.</p>
 
-                <p>And the only way either problem could be solved was if everyone stopped fighting each other long enough to work together.</p>
+        <p>“So?”</p>
 
-                <p>The question was whether they could do it.</p>
+        <div class="page-number">6</div>
+    </div>
 
-                <p>Andrey looked across the field.</p>
 
-                <p>“Alright.”</p>
+    <div class="page">
 
-                <p>He clapped once.</p>
+        <p>“So everyone needs to stop acting like separate groups.”</p>
 
-                <p>“Everyone. Together.”</p>
+        <p>Oliver approached.</p>
 
-                <p class="ending">And the entire school turned towards him.</p>
+        <p>“What are you talking about?”</p>
 
-            </div>
-        </section>
+        <p>Andrey looked at him.</p>
 
-    </main>
+        <p>“Class.”</p>
 
+        <p>Oliver frowned.</p>
 
-    <script>
-        function showPart(partNumber) {
-            const parts = document.querySelectorAll(".part");
-            const buttons = document.querySelectorAll(".part-button");
+        <p>“What about it?”</p>
 
-            parts.forEach(part => {
-                part.classList.remove("active");
-            });
+        <p>“Everyone here thinks they're better than everyone else.”</p>
 
-            buttons.forEach(button => {
-                button.classList.remove("active");
-            });
+        <p>Spiros looked around.</p>
 
-            document.getElementById("part" + partNumber).classList.add("active");
-            buttons[partNumber - 1].classList.add("active");
+        <p>The athletes thought the academics were useless.</p>
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+        <p>The academics thought the athletes were unintelligent.</p>
+
+        <p>The sixth formers thought the younger students were annoying.</p>
+
+        <p>The younger students thought the sixth formers were arrogant.</p>
+
+        <p>Charlie thought money solved most problems.</p>
+
+        <p>Ben Negus thought arguments could solve everything.</p>
+
+        <p>Dersim and Sam seemed to think nothing mattered.</p>
+
+        <p>The Turner twins smiled as if none of it concerned them.</p>
+
+        <p>And Simeon looked ready to fight somebody.</p>
+
+        <p>Andrey spoke quietly.</p>
+
+        <p>“If we keep competing against each other, the other schools win.”</p>
+
+        <p>Spiros looked at the scoreboard.</p>
+
+        <p>They were behind.</p>
+
+        <p>Badly.</p>
+
+        <p>Then the whistle blew.</p>
+
+        <p>Another event began.</p>
+
+        <p>And for the first time that day, everyone stopped talking.</p>
+
+        <div class="page-number">7</div>
+    </div>
+
+
+    <div class="page">
+
+        <p>They watched.</p>
+
+        <p>They realised the same thing.</p>
+
+        <p>They were losing.</p>
+
+        <p>And the strangest part was that, somewhere behind the athletics field, something impossible was moving through the air.</p>
+
+        <p>Magic was real.</p>
+
+        <p>The trophy was slipping away.</p>
+
+        <p>And the only way either problem could be solved was if everyone stopped fighting each other long enough to work together.</p>
+
+        <p>The question was whether they could do it.</p>
+
+        <p>Andrey looked across the field.</p>
+
+        <p>“Alright.”</p>
+
+        <p>He clapped once.</p>
+
+        <p>“Everyone. Together.”</p>
+
+        <p>And the entire school turned towards him.</p>
+
+        <div class="page-number">8</div>
+    </div>
+
+</div>
+
+
+<!-- =========================
+     BOTTOM BUTTONS
+     ========================= -->
+
+<div class="bottom-bar">
+
+    <button onclick="previousPage()">
+        ◀ Previous
+    </button>
+
+    <button onclick="nextPage()">
+        Next ▶
+    </button>
+
+</div>
+
+
+<script>
+
+let currentPart = 1;
+let currentPage = 0;
+
+
+/* =========================
+   GET CURRENT BOOK
+   ========================= */
+
+function getCurrentBook() {
+    return document.getElementById(
+        currentPart === 1 ? "part1" : "part2"
+    );
+}
+
+
+/* =========================
+   SHOW PART
+   ========================= */
+
+function showPart(part) {
+
+    currentPart = part;
+    currentPage = 0;
+
+    const part1 = document.getElementById("part1");
+    const part2 = document.getElementById("part2");
+
+    const button1 = document.getElementById("part1Button");
+    const button2 = document.getElementById("part2Button");
+
+    if (part === 1) {
+
+        part1.style.display = "flex";
+        part2.style.display = "none";
+
+        button1.classList.add("active");
+        button2.classList.remove("active");
+
+    } else {
+
+        part1.style.display = "none";
+        part2.style.display = "flex";
+
+        button1.classList.remove("active");
+        button2.classList.add("active");
+    }
+
+    getCurrentBook().scrollTo({
+        left: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================
+   NEXT PAGE
+   ========================= */
+
+function nextPage() {
+
+    const book = getCurrentBook();
+    const pages = book.querySelectorAll(".page");
+
+    if (currentPage < pages.length - 1) {
+
+        currentPage++;
+
+        pages[currentPage].scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center"
+        });
+    }
+}
+
+
+/* =========================
+   PREVIOUS PAGE
+   ========================= */
+
+function previousPage() {
+
+    const book = getCurrentBook();
+    const pages = book.querySelectorAll(".page");
+
+    if (currentPage > 0) {
+
+        currentPage--;
+
+        pages[currentPage].scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center"
+        });
+    }
+}
+
+
+/* =========================
+   PC KEYBOARD CONTROLS
+   ========================= */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "ArrowRight") {
+        nextPage();
+    }
+
+    if (event.key === "ArrowLeft") {
+        previousPage();
+    }
+
+});
+
+
+/* =========================
+   UPDATE PAGE WHEN USER
+   SWIPES / SCROLLS
+   ========================= */
+
+function updateCurrentPage() {
+
+    const book = getCurrentBook();
+    const pages = book.querySelectorAll(".page");
+
+    let closest = 0;
+    let smallestDistance = Infinity;
+
+    pages.forEach((page, index) => {
+
+        const rect = page.getBoundingClientRect();
+        const bookRect = book.getBoundingClientRect();
+
+        const pageCenter =
+            rect.left + rect.width / 2;
+
+        const bookCenter =
+            bookRect.left + bookRect.width / 2;
+
+        const distance =
+            Math.abs(pageCenter - bookCenter);
+
+        if (distance < smallestDistance) {
+            smallestDistance = distance;
+            closest = index;
         }
-    </script>
+
+    });
+
+    currentPage = closest;
+}
+
+
+/* Detect manual horizontal scrolling */
+
+document.getElementById("part1").addEventListener(
+    "scroll",
+    updateCurrentPage
+);
+
+document.getElementById("part2").addEventListener(
+    "scroll",
+    updateCurrentPage
+);
+
+</script>
 
 </body>
 </html>
-```
