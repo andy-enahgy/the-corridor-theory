@@ -162,48 +162,116 @@ body {
 @media (max-width: 600px) {
 
     .top-bar {
-        height: 60px;
+        height: 55px;
+        gap: 8px;
     }
 
     .part-button {
-        padding: 8px 18px;
+        padding: 7px 18px;
         font-size: 13px;
     }
 
     .book-area {
-        height: calc(100vh - 120px);
-        padding: 8px;
+        height: calc(100vh - 110px);
+        padding: 5px;
+    }
+
+    .book {
+        width: 100%;
+        height: 100%;
+        border-radius: 3px;
     }
 
     .slide {
-        padding: 25px 23px 20px;
+        padding: 18px 18px 12px;
     }
 
     .story {
-        font-size: 15px;
-        line-height: 1.42;
+        font-size: 13px;
+        line-height: 1.28;
     }
 
     .story p {
-        margin-bottom: 9px;
+        margin-bottom: 6px;
+    }
+
+    .page-number {
+        font-size: 11px;
+        margin-top: 5px;
     }
 
     .bottom-bar {
-        height: 60px;
-        gap: 10px;
+        height: 55px;
+        gap: 8px;
     }
 
     .nav-button {
-        padding: 9px 16px;
-        font-size: 13px;
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+}
+
+/* ================= SMALL PHONES ================= */
+
+@media (max-width: 400px) {
+
+    .slide {
+        padding: 14px 14px 9px;
+    }
+
+    .story {
+        font-size: 11.5px;
+        line-height: 1.22;
+    }
+
+    .story p {
+        margin-bottom: 4px;
+    }
+
+    .page-number {
+        font-size: 10px;
+        margin-top: 3px;
+    }
+
+    .nav-button {
+        padding: 7px 12px;
+        font-size: 11px;
+    }
+}
+
+/* ================= VERY SMALL PHONES ================= */
+
+@media (max-height: 700px) and (max-width: 600px) {
+
+    .top-bar {
+        height: 50px;
+    }
+
+    .book-area {
+        height: calc(100vh - 100px);
+    }
+
+    .bottom-bar {
+        height: 50px;
+    }
+
+    .slide {
+        padding: 10px 14px 7px;
+    }
+
+    .story {
+        font-size: 11px;
+        line-height: 1.18;
+    }
+
+    .story p {
+        margin-bottom: 3px;
     }
 }
 </style>
 </head>
 
-
 <body>
-
 
 <!-- ================= PART SELECTOR ================= -->
 
@@ -236,7 +304,6 @@ body {
 <!-- ================================================= -->
 <!-- ===================== PART 1 ==================== -->
 <!-- ================================================= -->
-
 
 <div class="slide part1 active">
 
@@ -283,7 +350,6 @@ body {
 </div>
 
 
-
 <div class="slide part1">
 
 <div class="story">
@@ -325,7 +391,6 @@ body {
 <div class="page-number">Part 1 · 2</div>
 
 </div>
-
 
 
 <div class="slide part1">
@@ -373,7 +438,6 @@ body {
 </div>
 
 
-
 <div class="slide part1">
 
 <div class="story">
@@ -413,7 +477,6 @@ body {
 <div class="page-number">Part 1 · 4</div>
 
 </div>
-
 
 
 <div class="slide part1">
@@ -461,7 +524,6 @@ body {
 </div>
 
 
-
 <div class="slide part1">
 
 <div class="story">
@@ -507,7 +569,6 @@ body {
 </div>
 
 
-
 <div class="slide part1">
 
 <div class="story">
@@ -551,7 +612,6 @@ body {
 <div class="page-number">Part 1 · 7</div>
 
 </div>
-
 
 
 <div class="slide part1">
@@ -611,7 +671,6 @@ body {
 </div>
 
 
-
 <div class="slide part1">
 
 <div class="story">
@@ -657,11 +716,9 @@ body {
 </div>
 
 
-
 <!-- ================================================= -->
 <!-- ===================== PART 2 ==================== -->
 <!-- ================================================= -->
-
 
 <div class="slide part2">
 
@@ -688,7 +745,6 @@ body {
 <div class="page-number">Part 2 · 1</div>
 
 </div>
-
 
 
 <div class="slide part2">
@@ -722,7 +778,6 @@ body {
 </div>
 
 
-
 <div class="slide part2">
 
 <div class="story">
@@ -754,7 +809,6 @@ body {
 <div class="page-number">Part 2 · 3</div>
 
 </div>
-
 
 
 <div class="slide part2">
@@ -812,7 +866,6 @@ body {
 </div>
 
 
-
 <div class="slide part2">
 
 <div class="story">
@@ -850,7 +903,6 @@ body {
 <div class="page-number">Part 2 · 5</div>
 
 </div>
-
 
 
 <div class="slide part2">
@@ -908,7 +960,6 @@ body {
 </div>
 
 
-
 <div class="slide part2">
 
 <div class="story">
@@ -960,7 +1011,6 @@ body {
 </div>
 
 
-
 <div class="slide part2">
 
 <div class="story">
@@ -1010,7 +1060,6 @@ body {
 <div class="page-number">Part 2 · 8</div>
 
 </div>
-
 
 
 <div class="slide part2">
@@ -1066,7 +1115,6 @@ body {
 </div>
 
 
-
 <div class="slide part2">
 
 <div class="story">
@@ -1116,7 +1164,6 @@ body {
 <div class="page-number">Part 2 · 10</div>
 
 </div>
-
 
 
 <div class="slide part2">
@@ -1180,7 +1227,6 @@ body {
 </div>
 
 
-
 <div class="slide part2">
 
 <div class="story">
@@ -1224,7 +1270,6 @@ body {
 </div>
 
 
-
 <div class="slide part2">
 
 <div class="story">
@@ -1264,7 +1309,6 @@ body {
 <div class="page-number">Part 2 · 13</div>
 
 </div>
-
 
 
 <div class="slide part2">
