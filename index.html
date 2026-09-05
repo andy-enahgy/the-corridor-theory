@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>The Corridor Theory</title>
 
 <style>
@@ -47,6 +46,7 @@ body {
 }
 
 /* TOP BAR */
+
 .top-bar {
     height: 65px;
     flex-shrink: 0;
@@ -67,12 +67,16 @@ body {
     border: 1px solid #8b765b;
     border-radius: 5px;
 
-    padding: 9px 22px;
+    padding: 9px 20px;
 
     font-family: Georgia, serif;
     font-size: 13px;
 
     cursor: pointer;
+}
+
+.part-button:hover {
+    background: #46392e;
 }
 
 .part-button.active {
@@ -120,13 +124,13 @@ body {
 }
 
 /* STORY AREA */
+
 .story-area {
     position: relative;
     flex: 1;
     overflow: hidden;
 }
 
-/* EACH PAGE */
 .slide {
     display: none;
 
@@ -142,11 +146,9 @@ body {
     display: flex;
 }
 
-/* STORY TEXT */
 .story {
     flex: 1;
 
-    /* SCROLL FEATURE */
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -156,17 +158,16 @@ body {
     padding-right: 8px;
 }
 
-/* SCROLLBAR */
 .story::-webkit-scrollbar {
     width: 7px;
 }
 
 .story::-webkit-scrollbar-track {
-    background: rgba(80, 55, 30, 0.08);
+    background: rgba(80,55,30,0.08);
 }
 
 .story::-webkit-scrollbar-thumb {
-    background: rgba(80, 55, 30, 0.35);
+    background: rgba(80,55,30,0.35);
     border-radius: 5px;
 }
 
@@ -174,14 +175,8 @@ body {
     margin: 0 0 7px 0;
 }
 
-.page-number {
-    text-align: center;
-    font-size: 11px;
-    opacity: .45;
-    margin-top: 3px;
-}
-
 /* MOBILE */
+
 @media (max-width: 600px) {
 
     .page {
@@ -201,7 +196,7 @@ body {
     }
 
     .part-button {
-        padding: 7px 12px;
+        padding: 7px 11px;
         font-size: 11px;
     }
 
@@ -228,23 +223,16 @@ body {
     .story {
         font-size: 12.5px;
         line-height: 1.27;
-
         overflow-y: auto;
         overflow-x: hidden;
-
         padding-right: 6px;
     }
 
     .story p {
         margin-bottom: 5px;
     }
-
-    .page-number {
-        font-size: 9px;
-    }
 }
 
-/* VERY SMALL PHONES */
 @media (max-width: 400px) {
 
     .top-bar {
@@ -252,7 +240,7 @@ body {
     }
 
     .part-button {
-        padding: 6px 9px;
+        padding: 6px 8px;
         font-size: 10px;
     }
 
@@ -273,10 +261,6 @@ body {
     .story {
         font-size: 11px;
         line-height: 1.2;
-
-        overflow-y: auto;
-        overflow-x: hidden;
-
         padding-right: 5px;
     }
 
@@ -294,6 +278,7 @@ body {
 <div class="book">
 
 <!-- TOP NAVIGATION -->
+
 <div class="top-bar">
 
     <button
@@ -310,6 +295,13 @@ body {
         Part 2
     </button>
 
+    <button
+        class="part-button"
+        id="part3Button"
+        onclick="switchPart(3)">
+        Part 3
+    </button>
+
     <div class="page-selector">
 
         <button
@@ -322,7 +314,7 @@ body {
         <span
             class="page-label"
             id="pageLabel">
-            Page 1 / 5
+            Page 1 / 4
         </span>
 
         <button
@@ -337,15 +329,16 @@ body {
 </div>
 
 
-<!-- STORY -->
 <div class="story-area">
 
 
-<!-- ========================= -->
-<!-- PART 1 -->
-<!-- ========================= -->
+<!-- ================================================= -->
+<!-- ===================== PART 1 ==================== -->
+<!-- ================================================= -->
+
 
 <div class="slide part1 active">
+
 <div class="story">
 
 <p>The bell rang at 10:17.</p>
@@ -407,13 +400,6 @@ body {
 <p>Then closed it.</p>
 
 <p>Andrey walked away.</p>
-
-</div>
-</div>
-
-
-<div class="slide part1">
-<div class="story">
 
 <p>Across the corridor, Ben Negus had begun explaining why Andrey was wrong. Nobody had asked.</p>
 
@@ -509,13 +495,6 @@ body {
 
 <p>Almost.</p>
 
-</div>
-</div>
-
-
-<div class="slide part1">
-<div class="story">
-
 <p>From the end of the corridor, Violet Turner watched them.</p>
 
 <p>Isla stood beside her.</p>
@@ -576,20 +555,11 @@ body {
 
 <p>Simeon looked back.</p>
 
-<p>Then Aaron appeared between them.</p>
-
-<p>Nobody knew exactly how Aaron had arrived. One moment he wasn't there. The next he stood calmly between the two boys, hands folded behind his back.</p>
+<p>Then Aaron appeared between them. Nobody knew how Aaron had arrived. One moment he wasn't there. The next he stood calmly between the two boys, hands folded behind his back.</p>
 
 <p>Aaron was a Chinese monk.</p>
 
 <p>At least, that was what everyone called him. Nobody knew how seriously he took it.</p>
-
-</div>
-</div>
-
-
-<div class="slide part1">
-<div class="story">
 
 <p>He looked at Simeon.</p>
 
@@ -683,11 +653,172 @@ body {
 </div>
 
 
-<!-- ========================= -->
-<!-- PART 2 -->
-<!-- ========================= -->
+<!-- ===================== PART 1 PAGE 2 ==================== -->
+
+<div class="slide part1">
+<div class="story">
+
+<p>Andrey didn't forget the twins.</p>
+
+<p>He simply decided there were more important things to worry about.</p>
+
+<p>By the next morning, the entire school seemed to have forgotten the conversation.</p>
+
+<p>Andrey hadn't.</p>
+
+<p>Neither had Simeon.</p>
+
+<p>Something about the way Violet and Isla had spoken bothered him.</p>
+
+<p>Not what they had said.</p>
+
+<p>What they hadn't said.</p>
+
+<p>At lunch, Andrey sat with Sam, Dersim, Spiros and Oliver.</p>
+
+<p>Oliver was revising.</p>
+
+<p>Sam was eating.</p>
+
+<p>Dersim was attempting to balance a spoon on his nose.</p>
+
+<p>Spiros was staring across the cafeteria.</p>
+
+<p>Andrey noticed.</p>
+
+<p>“What?”</p>
+
+<p>Spiros looked away.</p>
+
+<p>“Nothing.”</p>
+
+<p>“You were staring.”</p>
+
+<p>“Wasn't.”</p>
+
+<p>“You were.”</p>
+
+<p>Sam looked over.</p>
+
+<p>“Who were you looking at?”</p>
+
+<p>Spiros didn't answer.</p>
+
+<p>Dersim lowered the spoon.</p>
+
+<p>“I think he's in love.”</p>
+
+<p>Spiros looked at him.</p>
+
+<p>“I'm not.”</p>
+
+<p>“That's exactly what someone in love would say.”</p>
+
+<p>Oliver sighed.</p>
+
+<p>“Can we please focus?”</p>
+
+<p>Andrey looked towards the windows.</p>
+
+<p>The weather had changed.</p>
+
+<p>Dark clouds were moving over the school.</p>
+
+<p>He didn't know why, but he had a feeling something was coming.</p>
+
+<p>And he was right.</p>
+
+<p>Because that afternoon, the school announced Sports Day.</p>
+
+</div>
+</div>
+
+
+<!-- ===================== PART 1 PAGE 3 ==================== -->
+
+<div class="slide part1">
+<div class="story">
+
+<p>The announcement spread through the school almost instantly.</p>
+
+<p>Six schools.</p>
+
+<p>One trophy.</p>
+
+<p>Dozens of events.</p>
+
+<p>Everyone wanted to win.</p>
+
+<p>For most people, Sports Day was simply another school event.</p>
+
+<p>For some, it was personal.</p>
+
+<p>Simeon wanted to prove he was the strongest.</p>
+
+<p>Oliver wanted to prove preparation mattered.</p>
+
+<p>Charlie wanted his school to win because losing wasn't something he was particularly familiar with.</p>
+
+<p>Sam and Dersim simply wanted something interesting to happen.</p>
+
+<p>Andrey wasn't sure what he wanted.</p>
+
+<p>Until he saw the Turner twins watching the announcement from the back of the room.</p>
+
+<p>They weren't excited.</p>
+
+<p>They weren't nervous.</p>
+
+<p>They were calculating.</p>
+
+<p>Andrey looked at them.</p>
+
+<p>Violet smiled.</p>
+
+<p>Isla smiled too.</p>
+
+<p>Then they walked away.</p>
+
+<p>Andrey followed them with his eyes.</p>
+
+<p>Something was going to happen at Sports Day.</p>
+
+<p>He just didn't know what.</p>
+
+</div>
+</div>
+
+
+<!-- ===================== PART 1 PAGE 4 ==================== -->
+
+<div class="slide part1">
+<div class="story">
+
+<p>The day of Sports Day arrived.</p>
+
+<p>The field was packed.</p>
+
+<p>Students filled the stands.</p>
+
+<p>Teachers moved between events.</p>
+
+<p>The three schools gathered around the athletics track.</p>
+
+<p>The scoreboard stood in the middle of the field.</p>
+
+<p>And the competition began.</p>
+
+</div>
+</div>
+
+
+<!-- ================================================= -->
+<!-- ===================== PART 2 ==================== -->
+<!-- ================================================= -->
+
 
 <div class="slide part2">
+
 <div class="story">
 
 <p>Spiros hated mornings.</p>
@@ -718,18 +849,11 @@ body {
 
 <p>Spiros wasn't sure about Andrey.</p>
 
-<p>That was the problem with Andrey. He didn't seem to <i>notice</i> things in the normal way. He simply observed them, stored them somewhere in his mind, and occasionally produced a conclusion that made everyone else wonder how he'd got there.</p>
+<p>That was the problem with Andrey. He didn't seem to <em>notice</em> things in the normal way. He simply observed them, stored them somewhere in his mind, and occasionally produced a conclusion that made everyone else wonder how he'd got there.</p>
 
 <p>Spiros suspected Andrey had figured it out.</p>
 
 <p>He hoped he hadn't.</p>
-
-</div>
-</div>
-
-
-<div class="slide part2">
-<div class="story">
 
 <p>The school gates opened at eight.</p>
 
@@ -798,13 +922,6 @@ body {
 <p>For about thirty seconds.</p>
 
 <p>Then everything went wrong.</p>
-
-</div>
-</div>
-
-
-<div class="slide part2">
-<div class="story">
 
 <p>Dersim had somehow wandered into the wrong event.</p>
 
@@ -890,13 +1007,6 @@ body {
 
 <p>“Fair.”</p>
 
-</div>
-</div>
-
-
-<div class="slide part2">
-<div class="story">
-
 <p>They walked towards the far side of the field.</p>
 
 <p>Spiros followed.</p>
@@ -959,9 +1069,7 @@ body {
 
 <p>“That's basically believing me.”</p>
 
-<p>“No.”</p>
-
-<p>Dersim looked at Oliver.</p>
+<p>Oliver raised an eyebrow.</p>
 
 <p>“See? This is why I told Andrey. He's naturally smart.”</p>
 
@@ -976,13 +1084,6 @@ body {
 <p>Andrey ignored them.</p>
 
 <p>He was staring at the place where the shimmer had appeared.</p>
-
-</div>
-</div>
-
-
-<div class="slide part2">
-<div class="story">
 
 <p>Spiros stepped closer.</p>
 
@@ -1032,7 +1133,7 @@ body {
 
 <p>Spiros followed his gaze.</p>
 
-<p>“What’s in there?”</p>
+<p>“What's in there?”</p>
 
 <p>“I don't know yet.”</p>
 
@@ -1057,13 +1158,6 @@ body {
 <p>“Why?”</p>
 
 <p>“Because nobody would believe us.”</p>
-
-</div>
-</div>
-
-
-<div class="slide part2">
-<div class="story">
 
 <p>Spiros looked at him.</p>
 
@@ -1131,13 +1225,6 @@ body {
 
 <p>The academics thought the athletes were unintelligent.</p>
 
-</div>
-</div>
-
-
-<div class="slide part2">
-<div class="story">
-
 <p>The sixth formers thought the younger students were annoying.</p>
 
 <p>The younger students thought the sixth formers were arrogant.</p>
@@ -1198,6 +1285,405 @@ body {
 </div>
 
 
+<!-- ================================================= -->
+<!-- ===================== PART 3 ==================== -->
+<!-- ================================================= -->
+
+
+<div class="slide part3">
+
+<div class="story">
+
+<p>And the entire school turned towards him.</p>
+
+<p>For a moment, Andrey wasn't sure what to say next. Everyone was looking at him as if he had just volunteered them for something completely insane. Oliver still had his clipboard in his hands, Sam and Dersim were whispering to each other, and Spiros stood slightly behind them, watching the scoreboard.</p>
+
+<p>Then Spiros smiled.</p>
+
+<p>“So we win.”</p>
+
+<p>Andrey nodded. “We win.”</p>
+
+<p>The next event was announced over the speakers. The 200 metres. Spiros immediately looked towards the track.</p>
+
+<p>“That one's mine.”</p>
+
+<p>Andrey nodded. “Then win it.”</p>
+
+<p>Spiros walked towards the starting line while the rest of their school gathered around the track. For the first time that day, they weren't scattered into separate groups. The athletes were encouraging each other. The students who weren't competing were shouting from the sidelines. Even Oliver had stopped worrying about organising everyone individually.</p>
+
+<p>The gun went off.</p>
+
+<p>Spiros exploded forward.</p>
+
+<p>He took the lead almost immediately, but one of the runners from another school stayed close behind him. They were almost level coming into the final straight, and the crowd became louder with every step. Spiros pushed harder, crossing the line only a fraction of a second ahead.</p>
+
+<p>Their side of the field erupted.</p>
+
+<p>Sam jumped up. Dersim shouted something that nobody could understand. Oliver immediately checked the scoreboard.</p>
+
+<p>“We gained four points.”</p>
+
+<p>Andrey looked at the numbers.</p>
+
+<p>“Good.”</p>
+
+<p>“Very good,” Oliver corrected.</p>
+
+<p>The next few events went much the same way. The three schools fought for every point. Their school dominated one event, another school answered with a victory of their own, and the third school kept stealing points in events nobody had expected them to win.</p>
+
+<p>The scoreboard seemed to change every few minutes.</p>
+
+<p>First.</p>
+
+<p>Second.</p>
+
+<p>First again.</p>
+
+<p>Nobody knew who was going to win anymore.</p>
+
+<p>Then, halfway through the afternoon, a tiny figure appeared near the edge of the field.</p>
+
+<p>Andrey noticed him because he looked completely out of place amongst the other students.</p>
+
+<p>He was incredibly small. Almost everyone around him was noticeably taller, making him look even smaller than he actually was. But his eyes immediately caught Andrey's attention. They were unusually large, dark and expressive, and even from a distance they made him look as though he was permanently on the verge of crying.</p>
+
+<p>Then he started crying.</p>
+
+<p>A student from one of the opposing schools noticed.</p>
+
+<p>“Are you alright?”</p>
+
+<p>The tiny boy wiped his eyes.</p>
+
+<p>“Yeah.”</p>
+
+<p>“You're crying.”</p>
+
+<p>“I know.”</p>
+
+<p>“What's wrong?”</p>
+
+<p>He looked towards the scoreboard.</p>
+
+<p>“I just don't think we're going to win.”</p>
+
+<p>The student immediately softened.</p>
+
+<p>“Don't worry. There's still loads of events left.”</p>
+
+<p>Another student came over.</p>
+
+<p>“Yeah. You'll be fine.”</p>
+
+<p>The boy nodded.</p>
+
+<p>“Thanks.”</p>
+
+<p>His name was Dom.</p>
+
+<p>And within minutes, people had begun gathering around him.</p>
+
+<p>At first Andrey thought it was simply because everyone felt sorry for him. Then he noticed something strange.</p>
+
+<p>A runner from their school was standing at the starting line, but instead of watching the starter, he was looking towards Dom.</p>
+
+<p>A high jumper had stopped preparing for his attempt.</p>
+
+<p>One of their relay runners was talking to Dom instead of getting into position.</p>
+
+<p>Then the gun went off.</p>
+
+<p>Their runner reacted late.</p>
+
+<p>The other school won.</p>
+
+<p>Oliver stared at the track.</p>
+
+<p>“What just happened?”</p>
+
+<p>Andrey looked at Dom.</p>
+
+<p>“I think we have a problem.”</p>
+
+<p>It wasn't simply that people were abandoning their events. That would have been easier to deal with. Dom seemed to make people lose focus. They still competed, but they weren't performing properly. They hesitated. They made mistakes. They became distracted by him, worried about him, or simply felt too guilty to ignore him.</p>
+
+<p>The effect spread through the team.</p>
+
+<p>A baton was dropped.</p>
+
+<p>A runner started too slowly.</p>
+
+<p>A jumper fouled their attempt.</p>
+
+<p>A student who had been expected to score comfortably finished near the back.</p>
+
+<p>The scoreboard changed.</p>
+
+<p>Their school dropped from first to second.</p>
+
+<p>Then third.</p>
+
+<p>Then fourth.</p>
+
+<p>Dersim stared at it in disbelief.</p>
+
+<p>“Fourth?”</p>
+
+<p>Sam looked at Oliver.</p>
+
+<p>“How did we go from first to fourth?”</p>
+
+<p>Oliver looked genuinely annoyed.</p>
+
+<p>“Everyone's underperforming.”</p>
+
+<p>Spiros looked towards Dom.</p>
+
+<p>“That tiny guy?”</p>
+
+<p>Andrey nodded.</p>
+
+<p>“He's doing something.”</p>
+
+<p>Dom looked over at them.</p>
+
+<p>His huge eyes met Andrey's.</p>
+
+<p>He immediately started crying harder.</p>
+
+<p>Spiros looked away.</p>
+
+<p>“No.”</p>
+
+<p>Andrey glanced at him.</p>
+
+<p>“What?”</p>
+
+<p>“I refuse to feel bad for him.”</p>
+
+<p>Dom sniffed.</p>
+
+<p>Spiros covered his face.</p>
+
+<p>“Stop.”</p>
+
+<p>Andrey almost laughed.</p>
+
+<p>Dom wasn't threatening anyone. He wasn't even telling people to stop competing. He simply existed, looked upset, and somehow people couldn't bring themselves to ignore him.</p>
+
+<p>Andrey realised that was what made him dangerous.</p>
+
+<p>Their school regrouped.</p>
+
+<p>They stopped reacting to Dom and focused entirely on the events. It wasn't easy. Every time someone looked over, Dom seemed to notice. Every time someone went near him, another person followed.</p>
+
+<p>But slowly, the team recovered.</p>
+
+<p>They won the next sprint.</p>
+
+<p>Then they gained points in the long jump.</p>
+
+<p>Then another athlete won a field event.</p>
+
+<p>Spiros took part in another race and managed another victory after a close finish with one of the runners from the second school. The two exchanged a quick nod afterwards, both clearly exhausted.</p>
+
+<p>By late afternoon, their school had climbed back to third.</p>
+
+<p>The scoreboard was becoming increasingly close.</p>
+
+<p>Oliver looked at the numbers for several seconds before speaking.</p>
+
+<p>“If we win the next two events, we could get back into second.”</p>
+
+<p>“And first?” Sam asked.</p>
+
+<p>Oliver hesitated.</p>
+
+<p>“Possible.”</p>
+
+<p>Dersim grinned.</p>
+
+<p>“That's all I needed to hear.”</p>
+
+<p>The whole team began moving again.</p>
+
+<p>The remaining events became a series of battles between the three schools. One of their runners won by barely a step. Another school responded with an incredible high jump. Their long-jumper landed further than anyone expected. A third-school athlete managed to steal points at the last possible moment.</p>
+
+<p>Every victory was answered.</p>
+
+<p>Every mistake mattered.</p>
+
+<p>And every time their school seemed ready to climb back to the top, one of the other schools pulled ahead again.</p>
+
+<p>But Andrey's plan was working.</p>
+
+<p>The students were finally acting like one team.</p>
+
+<p>Even Charlie had stopped arguing with everyone.</p>
+
+<p>Even Simeon was encouraging people instead of threatening to fight them.</p>
+
+<p>Even Sam and Dersim had somehow become useful.</p>
+
+<p>Oliver checked the scoreboard again.</p>
+
+<p>“Second.”</p>
+
+<p>The whole group went quiet.</p>
+
+<p>Andrey looked at the numbers.</p>
+
+<p>They were close.</p>
+
+<p>Very close.</p>
+
+<p>The final event was approaching.</p>
+
+<p>The relay.</p>
+
+<p>The biggest event of Sports Day.</p>
+
+<p>The event worth enough points to completely change the standings.</p>
+
+<p>Andrey looked around at his team.</p>
+
+<p>They were tired.</p>
+
+<p>Their uniforms were covered in grass.</p>
+
+<p>Some were breathing heavily after their events.</p>
+
+<p>But nobody wanted to give up.</p>
+
+<p>Then a voice came from across the field.</p>
+
+<p>“Abbie!”</p>
+
+<p>Andrey looked over.</p>
+
+<p>A girl from the second school was standing near the track.</p>
+
+<p>Abbie.</p>
+
+<p>She turned towards the person who had called her.</p>
+
+<p>Liam.</p>
+
+<p>He was from the third school.</p>
+
+<p>Andrey immediately noticed the problem.</p>
+
+<p>They were on different teams.</p>
+
+<p>Liam smiled at her from across the field.</p>
+
+<p>Abbie smiled back.</p>
+
+<p>For a moment, neither of them cared about the scoreboard.</p>
+
+<p>Then Abbie looked away.</p>
+
+<p>Liam did the same.</p>
+
+<p>Neither said anything.</p>
+
+<p>But the way they looked at each other told Andrey enough.</p>
+
+<p>They were closer than they were supposed to be.</p>
+
+<p>Sam noticed too.</p>
+
+<p>“That's going to cause problems.”</p>
+
+<p>Dersim nodded.</p>
+
+<p>“Definitely.”</p>
+
+<p>Nearby, Sofia Lucchini stood with several boys from Abbie's school. She watched Abbie and Liam carefully, then looked towards the scoreboard.</p>
+
+<p>“We're still ahead of them,” one of the boys said.</p>
+
+<p>Sofia didn't answer.</p>
+
+<p>She was watching the other school.</p>
+
+<p>Watching Liam.</p>
+
+<p>Watching Abbie.</p>
+
+<p>Something about the situation clearly interested her.</p>
+
+<p>The final preparations began.</p>
+
+<p>The three schools gathered around their relay teams.</p>
+
+<p>Their school had climbed back to second.</p>
+
+<p>First place was only a few points away.</p>
+
+<p>The comeback was real.</p>
+
+<p>Then Andrey noticed two figures approaching from the school entrance.</p>
+
+<p>They had not been there earlier.</p>
+
+<p>One was dressed with an effortless confidence that immediately made him stand out from the crowd. He walked as though he already knew half the people on the field.</p>
+
+<p>The other was much taller and quieter, following beside him without saying a word.</p>
+
+<p>Andrey couldn't hear what they were saying.</p>
+
+<p>He didn't know their names.</p>
+
+<p>He didn't know which school they belonged to.</p>
+
+<p>And he certainly didn't know what they were capable of.</p>
+
+<p>But as they got closer, the atmosphere around the field seemed to change.</p>
+
+<p>The taller boy looked towards the track.</p>
+
+<p>The other smiled.</p>
+
+<p>And then the scoreboard flickered.</p>
+
+<p>Andrey stared at them.</p>
+
+<p>Something was wrong.</p>
+
+<p>The announcer raised the microphone.</p>
+
+<p>“Competitors for the final relay, please take your positions.”</p>
+
+<p>The crowd began cheering.</p>
+
+<p>Three schools.</p>
+
+<p>One final event.</p>
+
+<p>And a comeback that could still change everything.</p>
+
+<p>Andrey looked at the two newcomers.</p>
+
+<p>They had arrived at exactly the wrong time.</p>
+
+<p>Or perhaps the exact right time.</p>
+
+<p>The taller boy stopped.</p>
+
+<p>The stylish boy looked across the field.</p>
+
+<p>Then he smiled.</p>
+
+<p>Andrey had no idea who they were.</p>
+
+<p>Yet.</p>
+
+</div>
+</div>
+
+
 </div>
 </div>
 </div>
@@ -1209,13 +1695,11 @@ let currentPart = 1;
 let currentSlide = 0;
 
 
-/* GET CURRENT PART'S PAGES */
 function getSlides() {
     return document.querySelectorAll(".slide.part" + currentPart);
 }
 
 
-/* SHOW CURRENT PAGE */
 function showSlide() {
 
     const slides = getSlides();
@@ -1228,14 +1712,10 @@ function showSlide() {
 
     updateControls();
 
-    /* RESET SCROLL TO TOP WHEN CHANGING PAGE */
-    slides[currentSlide]
-        .querySelector(".story")
-        .scrollTop = 0;
+    slides[currentSlide].querySelector(".story").scrollTop = 0;
 }
 
 
-/* NEXT PAGE */
 function nextSlide() {
 
     const slides = getSlides();
@@ -1247,7 +1727,6 @@ function nextSlide() {
 }
 
 
-/* PREVIOUS PAGE */
 function previousSlide() {
 
     if (currentSlide > 0) {
@@ -1257,25 +1736,24 @@ function previousSlide() {
 }
 
 
-/* SWITCH PART */
 function switchPart(part) {
 
     currentPart = part;
     currentSlide = 0;
 
-    document
-        .getElementById("part1Button")
+    document.getElementById("part1Button")
         .classList.toggle("active", part === 1);
 
-    document
-        .getElementById("part2Button")
+    document.getElementById("part2Button")
         .classList.toggle("active", part === 2);
+
+    document.getElementById("part3Button")
+        .classList.toggle("active", part === 3);
 
     showSlide();
 }
 
 
-/* UPDATE PAGE COUNTER + BUTTONS */
 function updateControls() {
 
     const slides = getSlides();
@@ -1291,7 +1769,6 @@ function updateControls() {
 }
 
 
-/* PC KEYBOARD CONTROLS */
 document.addEventListener("keydown", function(event) {
 
     if (event.key === "ArrowRight") {
@@ -1305,7 +1782,6 @@ document.addEventListener("keydown", function(event) {
 });
 
 
-/* START */
 showSlide();
 
 </script>
